@@ -1,4 +1,6 @@
-﻿namespace WebProjektRazor.Models
+﻿using WebProjektRazor.Models.User;
+
+namespace WebProjektRazor.Models
 {
     public class Order
     {

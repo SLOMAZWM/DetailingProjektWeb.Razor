@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace WebProjektRazor.Models
+namespace WebProjektRazor.Models.User
 {
     public class User
     {

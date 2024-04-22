@@ -2,18 +2,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using WebProjektRazor.Models;
 using WebProjektRazor.Database;
+using WebProjektRazor.Models.User;
 
 namespace WebProjektRazor.Pages
 {
     public class LoginRegisterModel : PageModel
     {
         [BindProperty]
-        public User? RegisterUser { get; set; }
+        public RegisterUser? RegisterUser { get; set; }
 
         [BindProperty]
-        public User? LoginUser { get; set; }
+        public LoginUser? LoginUser { get; set; }
 
         public void OnGet()
         {
@@ -24,7 +24,6 @@ namespace WebProjektRazor.Pages
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(RegisterUser, serviceProvider: null, items: null);
 
-            // Rêczne wywo³anie walidacji
             bool isValid = Validator.TryValidateObject(RegisterUser, validationContext, validationResults, true);
             if (!isValid)
             {
@@ -57,9 +56,14 @@ namespace WebProjektRazor.Pages
 
         public async Task<IActionResult> OnPostLoginAsync()
         {
-            if (!ModelState.IsValid)
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(LoginUser, serviceProvider: null, items: null);
+            if (!Validator.TryValidateObject(LoginUser, validationContext, validationResults, true))
             {
-                ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
+                foreach (var validationResult in validationResults)
+                {
+                    ModelState.AddModelError("", validationResult.ErrorMessage);
+                }
                 return Page();
             }
 
@@ -70,17 +74,14 @@ namespace WebProjektRazor.Pages
                 {
                     return RedirectToPage("/UserPanel");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
-                    return Page();
-                }
+                ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Wyst¹pi³ b³¹d podczas logowania: " + ex.Message);
-                return Page();
             }
+            return Page();
         }
+
     }
 }

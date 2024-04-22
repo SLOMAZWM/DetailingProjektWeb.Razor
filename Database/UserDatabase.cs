@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using WebProjektRazor.Models;
+using WebProjektRazor.Models.User;
 
 namespace WebProjektRazor.Database
 {
@@ -16,7 +17,7 @@ namespace WebProjektRazor.Database
                 ?? throw new InvalidOperationException("Nie znaleziono connection string w konfiguracji.");
         }
 
-        public static async Task<Client?> AddUserToDatabase(User user)
+        public static async Task<Client?> AddUserToDatabase(RegisterUser user)
         {
             await using (SqlConnection conn = new SqlConnection(ConnectionString))
             {

@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using WebProjektRazor.Models.User;
+
 
 namespace WebProjektRazor.Models
 {
