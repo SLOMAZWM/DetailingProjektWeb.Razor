@@ -1,0 +1,32 @@
+﻿@page "/LoginRegister"
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+
+@* <PageTitle>Logowanie i Rejestracja</PageTitle> *@
+
+<div class="login-container">
+    <div class="Login">
+        <h1>Logowanie</h1>
+        <form method="post">
+            <input type="text" placeholder="Email" />
+            <input type="password" placeholder="Hasło" />
+            <button type="submit">Zaloguj</button>
+        </form>
+    </div>
+
+    <div class="Register">
+        <h1>Rejestracja</h1>
+        <form method="post">
+            <input type="text" placeholder="Imię" />
+            <input type="text" placeholder="Nazwisko" />
+            <input type="text" placeholder="Telefon" />
+            <input type="text" placeholder="Email" />
+            <input type="password" placeholder="Hasło" />
+            <button type="submit">Rejestruj</button>
+        </form>
+    </div>
+</div>
+
+<a href="UserPanel">Panel użytkownika</a>

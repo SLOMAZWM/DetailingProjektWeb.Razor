@@ -1,0 +1,41 @@
+﻿Klasa User:
+
+-Imie
+-Nazwisko
+-(Imie i nazwisko)
+-Nr tel*
+-Email*
+-Haslo*
+-Uprawnienia pracownik/klient (bool)
+
+*szyfrowanie
+
+Panel Klienta/Pracownika - to Panel Uzytkownika
+
+Klient:
+
+-Moze skladac zamowienia uslugi
+-Moze skladac zamowienia produktow bez uslugi
+-Przegladac Panel Klienta, a w nim:
+a) Historia uslug
+b) Historia zamowien
+c) Bezpieczenstwo - zmiana hasla
+
+Pracownik:
+
+-Przegladac Panel Pracownika, a w nim:
+a) Realizacja obecnych zamówień towarów
+b) Realizacja obecnych usług
+c) Historia danego klienta, po podaniu jego nr tel, imienia i nazwiska
+d) Bezpieczenstwo - zmiana hasla
+
+Panel nawigacji:
+
+Strona Główna, Zamówienia, Kontakt, Panel Użytkownika
+
+Produkty:
+
+-Nazwa Produktu
+-Ilosc Produktu
+-Cena za sztuke
+
