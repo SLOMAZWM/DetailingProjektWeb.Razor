@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using DetailingProjekt.Shared.Models;
+using WebProjektRazor.Models;
 
-namespace FirmaDetailingWeb.Database
+namespace WebProjektRazor.Database
 {
     public static class UserDatabase
     {

@@ -1,4 +1,4 @@
-﻿namespace DetailingProjekt.Shared.Models
+﻿namespace WebProjektRazor.Models
 {
     public class User
     {

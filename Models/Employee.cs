@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace DetailingProjekt.Shared.Models
+namespace WebProjektRazor.Models
 {
     public class Employee : User
     {

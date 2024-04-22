@@ -1,0 +1,84 @@
+CREATE TABLE [dbo].[User] (
+    [UserId]        INT            IDENTITY (1, 1) NOT NULL,
+    [FirstName]     NVARCHAR (100) NULL,
+    [LastName]      NVARCHAR (100) NULL,
+    [Email]         NVARCHAR (255) NULL,
+    [Password]      NVARCHAR (255) NULL,
+    [PhoneNumber]   NVARCHAR (50)  NULL,
+    [Discriminator] NVARCHAR (50)  NULL,
+    PRIMARY KEY CLUSTERED ([UserId] ASC),
+    UNIQUE NONCLUSTERED ([Email] ASC)
+);
+
+CREATE TABLE [dbo].[Service] (
+    [ServiceId]   INT             IDENTITY (1, 1) NOT NULL,
+    [Name]        VARCHAR (100)   NOT NULL,
+    [Description] VARCHAR (500)   NOT NULL,
+    [Price]       DECIMAL (18, 2) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ServiceId] ASC)
+);
+
+CREATE TABLE [dbo].[Product] (
+    [ProductId] INT             IDENTITY (1, 1) NOT NULL,
+    [Name]      NVARCHAR (100)  NOT NULL,
+    [Quantity]  SMALLINT        NOT NULL,
+    [Price]     DECIMAL (18, 2) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ProductId] ASC)
+);
+
+CREATE TABLE [dbo].[OrderService_Services] (
+    [OrderServiceId] INT NOT NULL,
+    [ServiceId]      INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([OrderServiceId] ASC, [ServiceId] ASC),
+    FOREIGN KEY ([OrderServiceId]) REFERENCES [dbo].[OrderService] ([OrderServiceId]),
+    FOREIGN KEY ([ServiceId]) REFERENCES [dbo].[Service] ([ServiceId])
+);
+
+CREATE TABLE [dbo].[OrderService] (
+    [OrderServiceId] INT           IDENTITY (1, 1) NOT NULL,
+    [OrderId]        INT           NOT NULL,
+    [ExecutionDate]  DATETIME      NOT NULL,
+    [Status]         VARCHAR (100) NOT NULL,
+    PRIMARY KEY CLUSTERED ([OrderServiceId] ASC),
+    FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Order] ([OrderId])
+);
+
+CREATE TABLE [dbo].[OrderProducts_Products] (
+    [OrderProductsId] INT NOT NULL,
+    [ProductId]       INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([OrderProductsId] ASC, [ProductId] ASC),
+    FOREIGN KEY ([OrderProductsId]) REFERENCES [dbo].[OrderProducts] ([OrderProductsId]),
+    FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product] ([ProductId])
+);
+
+CREATE TABLE [dbo].[OrderProducts] (
+    [OrderProductsId] INT            IDENTITY (1, 1) NOT NULL,
+    [OrderId]         INT            NOT NULL,
+    [Status]          NVARCHAR (100) NOT NULL,
+    [Address]         NVARCHAR (255) NOT NULL,
+    PRIMARY KEY CLUSTERED ([OrderProductsId] ASC),
+    FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Order] ([OrderId])
+);
+
+CREATE TABLE [dbo].[Order] (
+    [OrderId]    INT IDENTITY (1, 1) NOT NULL,
+    [EmployeeId] INT NOT NULL,
+    [ClientId]   INT NOT NULL,
+    PRIMARY KEY CLUSTERED ([OrderId] ASC),
+    FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employee] ([EmployeeId]),
+    FOREIGN KEY ([ClientId]) REFERENCES [dbo].[Client] ([ClientId])
+);
+
+CREATE TABLE [dbo].[Employee] (
+    [EmployeeId] INT            IDENTITY (1, 1) NOT NULL,
+    [Position]   NVARCHAR (100) NULL,
+    PRIMARY KEY CLUSTERED ([EmployeeId] ASC),
+    FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[User] ([UserId])
+);
+
+CREATE TABLE [dbo].[Client] (
+    [ClientId] INT IDENTITY (1, 1) NOT NULL,
+    PRIMARY KEY CLUSTERED ([ClientId] ASC),
+    FOREIGN KEY ([ClientId]) REFERENCES [dbo].[User] ([UserId])
+);
+
