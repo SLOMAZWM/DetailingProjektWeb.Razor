@@ -1,0 +1,12 @@
+﻿EXEC sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'
+GO
+
+EXEC sp_MSforeachtable 'DELETE FROM ?'
+GO
+
+EXEC sp_MSforeachtable 'IF OBJECTPROPERTY(OBJECT_ID(''?''), ''TableHasIdentity'') = 1 BEGIN DBCC CHECKIDENT (''?'', RESEED, 0) END'
+GO
+
+
+EXEC sp_MSforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'
+GO

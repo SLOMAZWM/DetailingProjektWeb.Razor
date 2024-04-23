@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BCrypt.Net;
+using System;
 using System.Collections.ObjectModel;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace WebProjektRazor.Database
 
         public static async Task<Client?> AddUserToDatabase(RegisterUser user)
         {
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
             await using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 await conn.OpenAsync();
@@ -37,7 +40,7 @@ namespace WebProjektRazor.Database
                         cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
                         cmd.Parameters.AddWithValue("@LastName", user.LastName);
                         cmd.Parameters.AddWithValue("@Email", user.Email);
-                        cmd.Parameters.AddWithValue("@Password", user.Password); //Hashowanie zrobic
+                        cmd.Parameters.AddWithValue("@Password", hashedPassword);
                         cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
 
                         int userId = (int)await cmd.ExecuteScalarAsync();
@@ -65,13 +68,11 @@ namespace WebProjektRazor.Database
                     catch (Exception ex)
                     {
                         await transaction.RollbackAsync();
-                        Console.WriteLine("Rollback in transaction for user registration: " + ex.Message);
                         return null;
                     }
                 }
             }
         }
-
 
         public static async Task<Client> TryLoginUser(string email, string password)
         {
@@ -82,17 +83,18 @@ namespace WebProjektRazor.Database
                     await conn.OpenAsync();
                     await using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        try
+                        cmd.CommandText = @"SELECT u.UserId, u.FirstName, u.LastName, u.Email, u.Password, u.PhoneNumber, 
+                                    c.ClientId FROM [dbo].[User] u 
+                                    INNER JOIN [dbo].[Client] c ON u.UserId = c.UserId
+                                    WHERE u.Email = @Email;";  
+
+                        cmd.Parameters.AddWithValue("@Email", email);
+
+                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                        if (reader.Read())
                         {
-                            cmd.CommandText = @"SELECT u.UserId, u.FirstName, u.LastName, u.Email, u.Password, u.PhoneNumber, u.Discriminator, 
-                            c.ClientId FROM [dbo].[User] u INNER JOIN [dbo].[Client] c ON u.UserId = c.UserId
-                                WHERE u.Email = @Email AND u.Password = @Password;";
-
-                            cmd.Parameters.AddWithValue("@Email", email);
-                            cmd.Parameters.AddWithValue("@Password", password);
-
-                            SqlDataReader reader = await cmd.ExecuteReaderAsync();
-                            if (reader.Read())
+                            var hashedPassword = reader.GetString(reader.GetOrdinal("Password"));
+                            if (BCrypt.Net.BCrypt.Verify(password, hashedPassword))
                             {
                                 var client = new Client
                                 {
@@ -107,20 +109,18 @@ namespace WebProjektRazor.Database
                                 };
                                 return client;
                             }
-                            return null;
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Błąd podczas odczytu użytkownika z bazy danych: " + ex.Message, ex);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Błąd podczas połączenia z bazą danych: " + ex.Message, ex);
+                throw new Exception("Błąd podczas próby logowania: " + ex.Message);
             }
 
+            return null;
         }
+
+
     }
 }
