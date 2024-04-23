@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using WebProjektRazor.Database;
 using WebProjektRazor.Models.User;
+using WebProjektRazor.Pages.ClientPage;
+using WebProjektRazor.Pages.EmployeePage;
 
 namespace WebProjektRazor.Pages
 {
@@ -58,6 +60,7 @@ namespace WebProjektRazor.Pages
         {
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(LoginUser, serviceProvider: null, items: null);
+
             if (!Validator.TryValidateObject(LoginUser, validationContext, validationResults, true))
             {
                 foreach (var validationResult in validationResults)
@@ -69,10 +72,11 @@ namespace WebProjektRazor.Pages
 
             try
             {
-                var client = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
-                if (client != null)
+                var user = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
+                if (user != null)
                 {
-                    return RedirectToPage("/ClientUserPanel");
+                    string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
+                    return RedirectToPage(redirectPage);
                 }
                 ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
             }

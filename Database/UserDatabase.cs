@@ -74,7 +74,7 @@ namespace WebProjektRazor.Database
             }
         }
 
-        public static async Task<Client> TryLoginUser(string email, string password)
+        public static async Task<User> TryLoginUser(string email, string password)
         {
             try
             {
@@ -83,10 +83,12 @@ namespace WebProjektRazor.Database
                     await conn.OpenAsync();
                     await using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = @"SELECT u.UserId, u.FirstName, u.LastName, u.Email, u.Password, u.PhoneNumber, 
-                                    c.ClientId FROM [dbo].[User] u 
-                                    INNER JOIN [dbo].[Client] c ON u.UserId = c.UserId
-                                    WHERE u.Email = @Email;";  
+                        cmd.CommandText = @"SELECT u.UserId, u.FirstName, u.LastName, u.Email, u.Password, u.PhoneNumber, u.Discriminator,
+                                    c.ClientId, e.EmployeeId, e.Position
+                                    FROM [dbo].[User] u
+                                    LEFT JOIN [dbo].[Client] c ON u.UserId = c.UserId
+                                    LEFT JOIN [dbo].[Employee] e ON u.UserId = e.UserId
+                                    WHERE u.Email = @Email;";
 
                         cmd.Parameters.AddWithValue("@Email", email);
 
@@ -96,18 +98,35 @@ namespace WebProjektRazor.Database
                             var hashedPassword = reader.GetString(reader.GetOrdinal("Password"));
                             if (BCrypt.Net.BCrypt.Verify(password, hashedPassword))
                             {
-                                var client = new Client
+                                string discriminator = reader.GetString(reader.GetOrdinal("Discriminator"));
+                                if (discriminator == "Client")
                                 {
-                                    UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                    Email = reader.GetString(reader.GetOrdinal("Email")),
-                                    PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
-                                    ClientId = reader.GetInt32(reader.GetOrdinal("ClientId")),
-                                    HistoryProductsOrders = new ObservableCollection<OrderProducts>(),
-                                    HistoryServiceOrders = new ObservableCollection<OrderService>()
-                                };
-                                return client;
+                                    return new Client
+                                    {
+                                        UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                        FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                        LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                        Email = reader.GetString(reader.GetOrdinal("Email")),
+                                        PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
+                                        ClientId = reader.GetInt32(reader.GetOrdinal("ClientId")),
+                                        HistoryProductsOrders = new ObservableCollection<OrderProducts>(),
+                                        HistoryServiceOrders = new ObservableCollection<OrderService>()
+                                    };
+                                }
+                                else if (discriminator == "Employee")
+                                {
+                                    return new Employee
+                                    {
+                                        UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                        FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                        LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                        Email = reader.GetString(reader.GetOrdinal("Email")),
+                                        PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
+                                        EmployeeId = reader.GetInt32(reader.GetOrdinal("EmployeeId")),
+                                        Position = reader.IsDBNull(reader.GetOrdinal("Position")) ? null : reader.GetString(reader.GetOrdinal("Position")),
+                                        AssignedOrders = new ObservableCollection<Order>()
+                                    };
+                                }
                             }
                         }
                     }
@@ -120,6 +139,7 @@ namespace WebProjektRazor.Database
 
             return null;
         }
+
 
 
     }
