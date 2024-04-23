@@ -39,7 +39,7 @@ namespace WebProjektRazor.Pages
                 var client = await UserDatabase.AddUserToDatabase(RegisterUser);
                 if (client != null)
                 {
-                    return RedirectToPage("/UserPanel");
+                    return RedirectToPage("/ClientUserPanel");
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace WebProjektRazor.Pages
                 var client = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
                 if (client != null)
                 {
-                    return RedirectToPage("/UserPanel");
+                    return RedirectToPage("/ClientUserPanel");
                 }
                 ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
             }
