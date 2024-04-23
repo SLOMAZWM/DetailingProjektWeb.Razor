@@ -1,0 +1,5 @@
+﻿Back:
+
+-Stworzenie odpowiedniej walidacji czy Client czy Employee
+-Na podstawie w/w, odpowiedni select + przekierowanie na strone po zalogowaniu
+-Stworzenie sesji w celu przechwytywania zalogowanego juz użytkownika
