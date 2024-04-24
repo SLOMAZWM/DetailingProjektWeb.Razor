@@ -5,8 +5,15 @@ namespace WebProjektRazor.Pages.ClientPage
 {
     public class UserPanelModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            var userType = HttpContext.Session.GetString("UserType");
+            if (userType != "Client")
+            {
+                return RedirectToPage("/LoginRegister");
+            }
+
+            return Page();
         }
     }
 }

@@ -110,7 +110,8 @@ namespace WebProjektRazor.Database
                                         PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
                                         ClientId = reader.GetInt32(reader.GetOrdinal("ClientId")),
                                         HistoryProductsOrders = new ObservableCollection<OrderProducts>(),
-                                        HistoryServiceOrders = new ObservableCollection<OrderService>()
+                                        HistoryServiceOrders = new ObservableCollection<OrderService>(),
+                                        Role = UserRole.Client
                                     };
                                 }
                                 else if (discriminator == "Employee")
@@ -124,7 +125,8 @@ namespace WebProjektRazor.Database
                                         PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber")),
                                         EmployeeId = reader.GetInt32(reader.GetOrdinal("EmployeeId")),
                                         Position = reader.IsDBNull(reader.GetOrdinal("Position")) ? null : reader.GetString(reader.GetOrdinal("Position")),
-                                        AssignedOrders = new ObservableCollection<Order>()
+                                        AssignedOrders = new ObservableCollection<Order>(),
+                                        Role = UserRole.Employee
                                     };
                                 }
                             }

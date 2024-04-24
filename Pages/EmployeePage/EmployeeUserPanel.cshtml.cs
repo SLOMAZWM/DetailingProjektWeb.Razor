@@ -5,8 +5,17 @@ namespace WebProjektRazor.Pages.EmployeePage
 {
     public class EmployeeUserPanelModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            var userType = HttpContext.Session.GetString("UserType");
+            if(userType != "Employee")
+            {
+                return RedirectToPage("/LoginRegister");
+            }
+            else
+            {
+                return Page();
+            }
         }
     }
 }

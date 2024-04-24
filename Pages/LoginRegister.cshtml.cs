@@ -17,9 +17,17 @@ namespace WebProjektRazor.Pages
         [BindProperty]
         public LoginUser? LoginUser { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (HttpContext.Session.GetString("UserType") != null)
+            {
+                var userType = HttpContext.Session.GetString("UserType");
+                var redirectUrl = userType == "Client" ? "/ClientPage/ClientUserPanel" : "/EmployeePage/EmployeeUserPanel";
+                return RedirectToPage(redirectUrl);
+            }
+            return Page();
         }
+
 
         public async Task<IActionResult> OnPostRegisterAsync()
         {

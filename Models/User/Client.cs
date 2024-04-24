@@ -15,7 +15,7 @@ namespace WebProjektRazor.Models.User
         }
         public Client(int clientId = 0, ObservableCollection<OrderProducts> historyProductsOrders = null!, ObservableCollection<OrderService> historyServiceOrders = null!,
             int userId = 0, string firstName = "", string lastName = "", string email = "", string password = "", string phoneNumber = "")
-            : base(userId, firstName, lastName, email, password, phoneNumber, isEmployer: true)
+            : base(userId, firstName, lastName, email, password, phoneNumber)
         {
             ClientId = clientId;
             HistoryProductsOrders = historyProductsOrders;

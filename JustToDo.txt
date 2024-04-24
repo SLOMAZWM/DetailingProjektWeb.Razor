@@ -1,6 +1,0 @@
-﻿Back:
-
--Stworzenie odpowiedniej walidacji czy Client czy Employee - done
--Na podstawie w/w, odpowiedni select + przekierowanie na strone po zalogowaniu - done
--Stworzenie sesji w celu przechwytywania zalogowanego juz użytkownika - do zrobienia
--Uniemozliwienie na wchodzenie do stron bez odpowiednich uprawnien - do zrobienia
