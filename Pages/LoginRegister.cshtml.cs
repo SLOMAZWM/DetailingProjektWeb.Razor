@@ -75,6 +75,9 @@ namespace WebProjektRazor.Pages
                 var user = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
                 if (user != null)
                 {
+                    HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                    HttpContext.Session.SetString("UserType", user is Client ? "Client" : "Employee");
+
                     string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
                     return RedirectToPage(redirectPage);
                 }

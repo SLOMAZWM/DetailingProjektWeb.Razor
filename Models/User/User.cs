@@ -1,8 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace WebProjektRazor.Models.User
 {
+    public enum UserRole
+    {
+        Client,
+        Employee
+    }
+
     public class User
     {
         public int UserId { get; set; }
@@ -28,11 +34,11 @@ namespace WebProjektRazor.Models.User
         [RegularExpression(@"^\d{3}\s\d{3}\s\d{3}$", ErrorMessage = "Numer telefonu musi być w formacie 000 000 000.")]
         public string PhoneNumber { get; set; }
 
-        public bool IsEmploye { get; set; }
+        public UserRole Role { get; set; }
 
         public User() { }
 
-        public User(int userId = 0, string firstName = "", string lastName = "", string email = "", string password = "", string phoneNumber = "", bool isEmployer = false)
+        public User(int userId = 0, string firstName = "", string lastName = "", string email = "", string password = "", string phoneNumber = "", UserRole role = UserRole.Client)
         {
             UserId = userId;
             FirstName = firstName;
@@ -40,7 +46,7 @@ namespace WebProjektRazor.Models.User
             Email = email;
             Password = password;
             PhoneNumber = phoneNumber;
-            IsEmploye = isEmployer;
+            Role = role;
         }
 
     }
