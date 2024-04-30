@@ -1,11 +1,41 @@
 ﻿@page "/EmployeeUserPanel"
 @model WebProjektRazor.Pages.EmployeePage.EmployeeUserPanelModel
-
+@{
+    ViewData["Title"] = "Panel Użytkownika";
+}
 
 <head>
     <link rel="stylesheet" href="~/css/site.css">
 </head>
 
 <body>
-    <h1>Tutaj kamilek zrob frontend dla pracownika</h1>
+    <main>
+    <div class="Employeecss">
+        <a>Zalogowano jako pracownik firmy detailingowej!</a>
+    </div>
+
+    <div class="Functionsemployees">
+        <h2>Co chcesz teraz zrobić?</h2>
+
+        <div class="FirstNav">
+            <div class="Services">
+                <a href="ServicesNav">Usługi</a>
+            </div>
+
+            <div class="Orders">
+                <a href="OrdersNav"> Zamówienia </a>
+                </div>
+        </div>
+
+        <div class="SecondNav">
+            <div class="History">
+                <a href="HistoryNav">Historia Klientów</a>
+            </div>
+
+            <div class="Security">
+                <a href="SecurityNav">Zmiana haseł</a>
+            </div>
+        </div>
+    </div>
+    </main>
 </body>

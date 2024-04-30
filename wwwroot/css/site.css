@@ -31,17 +31,18 @@ h1:focus {
         content: "An error has occurred."
     }
 
-
-main {
+body {
+    background-color: #424242;
+    color: white;
     font-family: 'Century Gothic';
 }
-
+/*========================================================================================================================Menu========================================================================================================================*/
 .menu {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    background-color: burlywood;
+    background-image: linear-gradient(to right top, #ffc75f, #ffbd61, #ffb363, #ffaa67, #ffa16b, #ff9a6e, #ff9372, #ff8c76, #ff847b, #ff7d81, #ff7689, #ff6f91);
     margin-top: 0%;
     padding-top: 1%;
     padding-bottom: 1%;
@@ -54,82 +55,188 @@ main {
         opacity: 100%;
         font-family: 'Century Gothic';
         font-size: 120%;
+        transition: ease-in-out 2s;
     }
 
         .menu a:hover {
             color: white;
             transition: 0.5s;
             cursor: pointer;
+            
         }
+
+/*========================================================================================================================Menu========================================================================================================================*/
+
+/*========================================================================================================================Login=======================================================================================================================*/
+
+.LoginForm {
+    margin-bottom: 30%;
+}
 
 .Login {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    align-items: center;
-    margin-top: 13%;
-    margin-left: 25%;
-    padding: 5%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    color: black;
-    background-color: grey;
     text-align: center;
-    float: left;
+    background-image: radial-gradient(circle, #6b6b6b, #696969, #676767, #666666, #646464, #616161, #5f5f5f, #5c5c5c, #585858, #545454, #505050, #4c4c4c);
+    width: 15%;
+    padding-top: 0%;
+    padding-bottom: 3%;
+    margin-top: 10%;
+    margin-left: 30%;
     border-radius: 5%;
+    border: 5px solid #fe935c;
+    clear: both;
 }
 
-.LoginButton {
-    background-color: burlywood;
-    color: white;
-    font-size: 100%;
-    padding: 6%;
-    text-decoration: none;
-    border: none;
-    transition-duration: 0.4s;
-    border-radius: 10%;
-    cursor: pointer;
-}
-
-    .LoginButton:hover {
-        color: burlywood;
-        background-color: white;
-        border: 5px black;
+    .EmailLog {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 12%;
+        border: none;
+        background: none;
+        color: white;
+        text-align: center;
     }
+
+    .PasswordLog {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 10%;
+        background: none;
+        border: none;
+        text-align: center;
+        color: white;
+    }
+
+.LoginBttn {
+    margin-top: 20%;
+    width: 80%;
+    padding: 5%;
+    background-color: #fe935c;
+    border: none;
+    border-radius: 3%;
+    transition: ease-in-out 0.5s;
+    font-size: 100%;
+    cursor: pointer;
+    font-size: 120%;
+}
+
+    .LoginBttn:hover {
+        background-color: #ff7689;
+        transition: 0.5s;
+        color: white;
+    }
+
+/*========================================================================================================================Login=======================================================================================================================*/
+
+.Line {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: white;
+    width: 0.1%;
+    padding-top: 1%;
+    padding-bottom: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.container {
+    display: flex;
+}
+
+/*========================================================================================================================Register========================================================================================================================*/
 
 .Register {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    align-items: center;
-    margin-top: 8%;
-    margin-left: 20%;
-    padding: 3%;
-    color: black;
-    background-color: grey;
     text-align: center;
-    float: left;
+    background-image: radial-gradient(circle, #6b6b6b, #696969, #676767, #666666, #646464, #616161, #5f5f5f, #5c5c5c, #585858, #545454, #505050, #4c4c4c);
+    width: 15%;
+    padding-top: 1%;
+    padding-bottom: 3%;
+    margin-top: 10%;
+    margin-right: 30%;
     border-radius: 5%;
+    border: 5px solid #fe935c;
+    clear: both;
 }
 
-.RegisterButton {
-    background-color: burlywood;
-    color: white;
-    font-size: 100%;
-    padding: 6%;
-    text-decoration: none;
-    border: none;
-    transition-duration: 0.4s;
-    border: 10px black;
-    border-radius: 10%;
-    cursor: pointer;
-}
-
-    .RegisterButton:hover {
-        color: burlywood;
-        background-color: white;
-        border: 5px black;
+    .FirstNameReg {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 5%;
+        border: none;
+        background: none;
+        color: white;
+        text-align: center;
     }
+
+    .LastNameReg {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 10%;
+        border: none;
+        background: none;
+        color: white;
+        text-align: center;
+    }
+
+    .PhoneNumberReg {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 10%;
+        border: none;
+        background: none;
+        color: white;
+        text-align: center;
+    }
+
+    .EmailReg {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 10%;
+        border: none;
+        background: none;
+        color: white;
+        text-align: center;
+    }
+
+    .PasswordReg {
+        width: 80%;
+        padding-top: 2%;
+        margin-top: 10%;
+        border: none;
+        background: none;
+        color: white;
+        text-align: center;
+    }
+
+    .RegisterBttn {
+        margin-top: 10%;
+        width: 80%;
+        padding: 5%;
+        background-color: #fe935c;
+        border: none;
+        border-radius: 3%;
+        transition: ease-in-out 0.5s;
+        font-size: 100%;
+        cursor: pointer;
+        font-size: 120%;
+    }
+
+        .RegisterBttn:hover {
+            background-color: #ff7689;
+            transition: 0.5s;
+            color: white;
+        }
+
+/*========================================================================================================================Register========================================================================================================================*/
+
+/*========================================================================================================================Menu klienta====================================================================================================================*/
 
 .client {
     display: flex;
@@ -154,3 +261,127 @@ main {
             transition: 0.3s;
             cursor: pointer;
         }
+
+/*========================================================================================================================Menu klienta====================================================================================================================*/
+
+/*========================================================================================================================Menu pracownika=================================================================================================================*/
+
+.Employeecss {
+    margin-top: 2%;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-family: 'Century Gothic';
+}
+
+
+
+.Functionsemployees {
+    text-align: center;
+    margin-top: 5%;
+    text-decoration: none;
+    color: white;
+    font-family: 'Century Gothic';
+}
+
+
+.FirstNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 5%;
+}
+
+    .Services {
+        background-image: radial-gradient(circle, #6b6b6b, #696969, #676767, #666666, #646464, #616161, #5f5f5f, #5c5c5c, #585858, #545454, #505050, #4c4c4c);
+        width: 15%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        border-radius: 5%;
+        border: 3px solid #fe935c;
+        margin-left: 33%;
+        transition: 0.3s;
+    }
+
+        .Services:hover {
+            width: 16%;
+            padding-top: 6%;
+            padding-bottom: 6%;
+            border: 3px solid #ff7689;
+        }
+
+    .Orders {
+        background-image: radial-gradient(circle, #6b6b6b, #696969, #676767, #666666, #646464, #616161, #5f5f5f, #5c5c5c, #585858, #545454, #505050, #4c4c4c);
+        width: 15%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        border-radius: 5%;
+        border: 3px solid #fe935c;
+        margin-right: 33%;
+        transition: 0.3s;
+    }
+
+        .Orders:hover {
+            width: 16%;
+            padding-top: 6%;
+            padding-bottom: 6%;
+            border: 3px solid #ff7689;
+        }
+
+.SecondNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+    .History {
+        background-image: radial-gradient(circle, #6b6b6b, #696969, #676767, #666666, #646464, #616161, #5f5f5f, #5c5c5c, #585858, #545454, #505050, #4c4c4c);
+        width: 15%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        border-radius: 5%;
+        border: 3px solid #fe935c;
+        margin-top: 2%;
+        margin-left: 33%;
+        transition: 0.3s;
+    }
+
+        .History:hover {
+            width: 16%;
+            padding-top: 6%;
+            padding-bottom: 6%;
+            border: 3px solid #ff7689;
+        }
+
+    .Security {
+        background-image: radial-gradient(circle, #6b6b6b, #696969, #676767, #666666, #646464, #616161, #5f5f5f, #5c5c5c, #585858, #545454, #505050, #4c4c4c);
+        width: 15%;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        border-radius: 5%;
+        border: 3px solid #fe935c;
+        margin-top: 2%;
+        margin-right: 33%;
+        transition: 0.3s;
+    }
+
+        .Security:hover {
+            width: 16%;
+            padding-top: 6%;
+            padding-bottom: 6%;
+            border: 3px solid #ff7689;
+        }
+
+
+.Services, 
+.Orders, 
+.History, 
+.Security, a {
+    text-decoration: none;
+    color: white;
+    font-family: 'Century Gothic';
+    font-size: 110%;
+}
+/*========================================================================================================================Menu pracownika=================================================================================================================*/
