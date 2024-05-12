@@ -243,7 +243,7 @@ body {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    background-color: burlywood;
+    background-image: linear-gradient(to left bottom, #ffc75f, #ffbd61, #ffb363, #ffaa67, #ffa16b, #ff9a6e, #ff9372, #ff8c76, #ff847b, #ff7d81, #ff7689, #ff6f91);
     padding-top: 1%;
     padding-bottom: 1%;
 }
