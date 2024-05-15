@@ -7,8 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Nowy folder\**" />
+    <Content Remove="wwwroot\Nowy folder\**" />
+    <EmbeddedResource Remove="wwwroot\Nowy folder\**" />
+    <None Remove="wwwroot\Nowy folder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Nowy folder\" />
   </ItemGroup>
 
 </Project>
