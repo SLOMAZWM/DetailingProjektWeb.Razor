@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Nowy folder\" />
+    <Folder Include="wwwroot\Pictures\" />
   </ItemGroup>
 
 </Project>

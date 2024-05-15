@@ -423,43 +423,111 @@ body {
     margin-top: 4%;
     margin-bottom: 30%;
     display: flex;
-    justify-content: space-around;
+    text-align: center;    
 }
 
 .Quick_Detailer {
-    background-color: #505050;
-    padding: 5%;
+    background-image: radial-gradient(circle, #ffa16b, #ff9367, #ff8465, #ff7465, #ff6468);
+    padding: 4%;
     border-radius: 10%;
-    margin: 3%;
+    margin: 2%;
+    transition: 0.5s;
+    border: 3px solid #FF4660;
+    color: black;
 }
 
 .APC_Interior {
-    background-color: #505050;
-    padding: 3%;
+    background-image: radial-gradient(circle, #ffa16b, #ff9367, #ff8465, #ff7465, #ff6468);
+    padding: 4%;
     border-radius: 10%;
-    margin: 3%;
+    margin: 2%;
+    transition: 0.5s;
+    border: 3px solid #FF4660;
+    color: black;
 }
 
 .Glass_cleaner {
-    background-color: #505050;
-    padding: 5%;
+    background-image: radial-gradient(circle, #ffa16b, #ff9367, #ff8465, #ff7465, #ff6468);
+    padding: 4%;
     border-radius: 10%;
-    margin: 3%;
+    margin: 2%;
+    transition: 0.5s;
+    border: 3px solid #FF4660;
+    color: black;
 }
 
 .Wax {
-    background-color: #505050;
-    padding: 5%;
+    background-image: radial-gradient(circle, #ffa16b, #ff9367, #ff8465, #ff7465, #ff6468);
+    padding: 4%;
     border-radius: 10%;
-    margin: 3%;
+    margin: 2%;
+    transition: 0.5s;
+    border: 3px solid #FF4660;
+    color: black;
+}
+
+.Quick_Detailer:hover {
+    padding-left: 4.5%;
+    padding-right: 4.5%;
+    transition: 0.5s;
+    border-color: #fe935c;
+}
+
+.APC_Interior:hover {
+    padding-left: 4.5%;
+    padding-right: 4.5%;
+    transition: 0.5s;
+    border-color: #fe935c;
+}
+
+.Glass_cleaner:hover {
+    padding-left: 4.5%;
+    padding-right: 4.5%;
+    transition: 0.5s;
+    border-color: #fe935c;
+}
+
+.Wax:hover {
+    padding-left: 4.5%;
+    padding-right: 4.5%;
+    transition: 0.5s;
+    border-color: #fe935c;
 }
 
 /*========================================================================================================================Produkty=========================================================================================================================*/
 
+/*======================================================================================================================Zdjêcia Produkty===================================================================================================================*/
+
+.QckJpg {
+    margin-top: 20%;
+    width: 250px;
+    height: auto;
+}
+
+.ApcJpg {
+    margin-top: 5%;
+    width: 250px;
+    height: auto;
+}
+
+.GlassJpg {
+    margin-top: 10%;
+    width: 215px;
+    height: auto;
+}
+
+.WaxJpg {
+    margin-top: 20%;
+    width: 200px;
+    height: 200px;
+}
+
+/*======================================================================================================================Zdjêcia Produkty===================================================================================================================*/
+
 
 /*========================================================================================================================Gdzie nas znaleŸæ================================================================================================================*/
 .Contact {
-    background-color: #616161;
+    background-image: linear-gradient(to left top, #ffc75f, #ffbd61, #ffb363, #ffaa67, #ffa16b, #ff9a6e, #ff9372, #ff8c76, #ff847b, #ff7d81, #ff7689, #ff6f91);
     margin-top: 10%;
     color: black;
     text-align: center;
@@ -489,3 +557,26 @@ body {
 }
 
 /*========================================================================================================================Mapa============================================================================================================================*/
+
+
+/*===================================================================================================================BackToTopButton=======================================================================================================================*/
+
+.backToTopBtn {
+    background-color: rgb(75, 75, 75);
+    color: #fff;
+    border: none;
+    border-radius: 5%;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out;
+    z-index: 500;
+}
+
+    .backToTopBtn.show {
+        opacity: 1;
+    }
+
+/*===================================================================================================================BackToTopButton=======================================================================================================================*/
