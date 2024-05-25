@@ -49,7 +49,7 @@ namespace WebProjektRazor.Pages
                 var client = await UserDatabase.AddUserToDatabase(RegisterUser);
                 if (client != null)
                 {
-                    return RedirectToPage("/ClientUserPanel");
+                    return RedirectToPage("ClientPage/ClientUserPanel");
                 }
                 else
                 {
