@@ -1,25 +1,12 @@
 ﻿@page "/ClientUserPanel"
 @model WebProjektRazor.Pages.ClientPage.UserPanelModel
 
-<head>
-    <title>Klient - panel</title>
-</head>
+<div style="text-align: center;">
+    <h1>Zalogowałeś się jako Klient!</h1>
+</div>
 
-<body>
-    <main>
-        <div style="text-align: center;">
-            <h1>Zalogowałeś się jako Klient!</h1>
-        </div>
-
-        <div class="client">
-            <a href="OrderHistory">Historia zamówień</a>
-            <a href="ServiceHistory">Historia usług</a>
-            <a href="AccountOptions">Ustawienia Konta</a>
-        </div>
-
-        <form method="post" asp-page-handler="Logout">
-            <button type="submit" class="LogOutBttn">Wyloguj</button>
-        </form>
-    </main>
-
-</body>
+<div class="client">
+    <a href="OrderHistory">Historia zamówień</a>
+    <a href="ServiceHistory">Historia usług</a>
+    <a href="AccountOptions">Ustawienia Konta</a>
+</div>

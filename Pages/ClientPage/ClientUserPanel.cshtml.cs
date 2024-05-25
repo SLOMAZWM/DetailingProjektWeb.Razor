@@ -15,11 +15,5 @@ namespace WebProjektRazor.Pages.ClientPage
 
             return Page();
         }
-
-        public IActionResult OnPostLogout()
-        {
-            HttpContext.Session.Clear();
-            return RedirectToPage("/LoginRegister");
-        }
     }
 }
