@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function scrollFunction() {
-        if (document.body.scrollTop > 1900 || document.documentElement.scrollTop > 1900) {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
             backToTopBtn.style.display = "block";
             backToTopBtn.classList.add("show");
         } else {
@@ -27,3 +27,4 @@ document.addEventListener("DOMContentLoaded", function () {
         backToTop();
     };
 });
+
