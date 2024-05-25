@@ -8,7 +8,7 @@ namespace WebProjektRazor.Models.User
         public ObservableCollection<OrderProducts> HistoryProductsOrders { get; set; }
         public ObservableCollection<OrderService> HistoryServiceOrders { get; set; }
 
-        public Client()
+        public Client() : base()
         {
             HistoryProductsOrders = new ObservableCollection<OrderProducts>();
             HistoryServiceOrders = new ObservableCollection<OrderService>();

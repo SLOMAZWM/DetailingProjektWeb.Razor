@@ -31,7 +31,7 @@ namespace WebProjektRazor.Models.User
         public string Password { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Numer telefonu jest wymagany.")]
-        [RegularExpression(@"^\+\d{1,3}\s\d{1,3}\s\d{3}\s\d{3}\s\d{3}$", ErrorMessage = "Numer telefonu musi być w formacie +00 000 000 000.")]
+        [RegularExpression(@"^\d{3}\s\d{3}\s\d{3}$", ErrorMessage = "Numer telefonu musi być w formacie 000 000 000.")]
         public string PhoneNumber { get; set; } = string.Empty;
 
         public UserRole Role { get; set; }
