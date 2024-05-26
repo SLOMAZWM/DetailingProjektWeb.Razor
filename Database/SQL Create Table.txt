@@ -27,8 +27,8 @@ CREATE TABLE [dbo].[Employee] (
 
 CREATE TABLE [dbo].[Order] (
     [OrderId]    INT IDENTITY (1, 1) NOT NULL,
-    [EmployeeId] INT NOT NULL,
     [ClientId]   INT NOT NULL,
+    [EmployeeId] INT NOT NULL,
     PRIMARY KEY CLUSTERED ([OrderId] ASC),
     FOREIGN KEY ([ClientId]) REFERENCES [dbo].[Client] ([ClientId]),
     FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employee] ([EmployeeId])
@@ -67,13 +67,28 @@ CREATE TABLE [dbo].[Service] (
     PRIMARY KEY CLUSTERED ([ServiceId] ASC)
 );
 
+CREATE TABLE [dbo].[Car] (
+    [CarId]        INT            IDENTITY (1, 1) NOT NULL,
+    [ClientId]     INT            NOT NULL,
+    [Brand]        NVARCHAR (100) NOT NULL,
+    [Model]        NVARCHAR (100) NOT NULL,
+    [Year]         INT            NOT NULL,
+    [Color]        NVARCHAR (50)  NOT NULL,
+    [VIN]          NVARCHAR (50)  NOT NULL,
+    [Mileage]      INT            NOT NULL,
+    PRIMARY KEY CLUSTERED ([CarId] ASC),
+    FOREIGN KEY ([ClientId]) REFERENCES [dbo].[Client] ([ClientId])
+);
+
 CREATE TABLE [dbo].[OrderService] (
     [OrderServiceId] INT           IDENTITY (1, 1) NOT NULL,
     [OrderId]        INT           NOT NULL,
+    [CarId]          INT           NOT NULL,
     [ExecutionDate]  DATETIME      NOT NULL,
     [Status]         VARCHAR (100) NOT NULL,
     PRIMARY KEY CLUSTERED ([OrderServiceId] ASC),
-    FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Order] ([OrderId])
+    FOREIGN KEY ([OrderId]) REFERENCES [dbo].[Order] ([OrderId]),
+    FOREIGN KEY ([CarId]) REFERENCES [dbo].[Car] ([CarId])
 );
 
 CREATE TABLE [dbo].[OrderService_Services] (
