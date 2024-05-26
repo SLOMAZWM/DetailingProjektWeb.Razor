@@ -142,7 +142,125 @@ namespace WebProjektRazor.Database
             return null;
         }
 
+        public static async Task<bool> UpdateUserPassword(string userId, string currentPassword, string newPassword)
+        {
+            try
+            {
+                await using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    await using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT Password FROM [dbo].[User] WHERE UserId = @UserId;";
+                        cmd.Parameters.AddWithValue("@UserId", userId);
 
+                        string hashedPassword = (string)await cmd.ExecuteScalarAsync();
+                        if (!BCrypt.Net.BCrypt.Verify(currentPassword, hashedPassword))
+                        {
+                            return false;
+                        }
+
+                        string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "UPDATE [dbo].[User] SET Password = @NewPassword WHERE UserId = @UserId;";
+                        cmd.Parameters.AddWithValue("@NewPassword", newHashedPassword);
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+
+                        await cmd.ExecuteNonQueryAsync();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Błąd podczas aktualizacji hasła: " + ex.Message);
+            }
+
+
+        }
+
+        public static async Task<User?> GetUserById(int userId)
+        {
+            try
+            {
+                await using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    await using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"SELECT UserId, FirstName, LastName, Email, PhoneNumber FROM [dbo].[User] WHERE UserId = @UserId;";
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+
+                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                        if (reader.Read())
+                        {
+                            return new User
+                            {
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                Email = reader.GetString(reader.GetOrdinal("Email")),
+                                PhoneNumber = reader.GetString(reader.GetOrdinal("PhoneNumber"))
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Błąd podczas pobierania użytkownika: " + ex.Message);
+            }
+
+            return null;
+        }
+
+        public static async Task<bool> UpdateUserEmail(string userId, string newEmail)
+        {
+            try
+            {
+                await using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    await using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "UPDATE [dbo].[User] SET Email = @NewEmail WHERE UserId = @UserId;";
+                        cmd.Parameters.AddWithValue("@NewEmail", newEmail);
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+
+                        await cmd.ExecuteNonQueryAsync();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Błąd podczas aktualizacji emaila: " + ex.Message);
+            }
+        }
+
+        public static async Task<bool> UpdateUserPhoneNumber(string userId, string newPhoneNumber)
+        {
+            try
+            {
+                await using (SqlConnection conn = new SqlConnection(ConnectionString))
+                {
+                    await conn.OpenAsync();
+                    await using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "UPDATE [dbo].[User] SET PhoneNumber = @NewPhoneNumber WHERE UserId = @UserId;";
+                        cmd.Parameters.AddWithValue("@NewPhoneNumber", newPhoneNumber);
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+
+                        await cmd.ExecuteNonQueryAsync();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Błąd podczas aktualizacji numeru telefonu: " + ex.Message);
+            }
+        }
 
     }
 }

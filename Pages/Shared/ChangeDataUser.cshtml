@@ -9,13 +9,12 @@
 </head>
 
 <body>
-
     <div class="ActualData">
         <center><h1>Aktualne Dane:</h1></center>
-        <p>Imię:</p>
-        <p>Nazwisko:</p>
-        <p>Telefon:</p>
-        <p>Email:</p>
+        <p>Imię: @Model.CurrentUser.FirstName</p>
+        <p>Nazwisko: @Model.CurrentUser.LastName</p>
+        <p>Telefon: @Model.CurrentUser.PhoneNumber</p>
+        <p>Email: @Model.CurrentUser.Email</p>
     </div>
 
     <div class="Line3"></div>
@@ -25,73 +24,70 @@
     </div>
 
     <div class="container">
-
-        <div class="CDUInputPasswords">
-
-            <h1>Hasło</h1>
-
-            <div class="InputPassword">
-                <input type="password" class="Csspassword" placeholder="Aktualne Hasło" />
+        <form method="post" asp-page-handler="ChangePassword">
+            <div class="CDUInputPasswords">
+                <h1>Hasło</h1>
+                <div class="InputPassword">
+                    <input asp-for="ChangeData.CurrentPassword" class="Csspassword" placeholder="Aktualne Hasło" />
+                    <span asp-validation-for="ChangeData.CurrentPassword"></span>
+                </div>
+                <div class="InputPassword">
+                    <input asp-for="ChangeData.NewPassword" class="Csspassword" placeholder="Nowe Hasło" />
+                    <span asp-validation-for="ChangeData.NewPassword"></span>
+                </div>
+                <div class="InputPassword">
+                    <input asp-for="ChangeData.ConfirmPassword" class="Csspassword" placeholder="Potwierdź Hasło" />
+                    <span asp-validation-for="ChangeData.ConfirmPassword"></span>
+                </div>
+                <div class="CDUButton">
+                    <button type="submit">Zatwierdź</button>
+                </div>
             </div>
+        </form>
 
-            <div class="InputPassword">
-                <input type="password" class="Csspassword" placeholder="Nowe Hasło" />
+        <form method="post" asp-page-handler="ChangeEmail">
+            <div class="CDUInputEmail">
+                <h1>Email</h1>
+                <div class="InputMail">
+                    <input asp-for="ChangeData.CurrentEmail" class="CssMail" placeholder="Aktualny Email" readonly />
+                    <span asp-validation-for="ChangeData.CurrentEmail"></span>
+                </div>
+                <div class="InputMail">
+                    <input asp-for="ChangeData.NewEmail" class="CssMail" placeholder="Nowy Email" />
+                    <span asp-validation-for="ChangeData.NewEmail"></span>
+                </div>
+                <div class="InputMail">
+                    <input asp-for="ChangeData.ConfirmEmail" class="CssMail" placeholder="Potwierdź Email" />
+                    <span asp-validation-for="ChangeData.ConfirmEmail"></span>
+                </div>
+                <div class="CDUButton">
+                    <button type="submit">Zatwierdź</button>
+                </div>
             </div>
+        </form>
 
-            <div class="InputPassword">
-                <input type="password" class="Csspassword" placeholder="Potwierdź Hasło" />
+        <form method="post" asp-page-handler="ChangePhoneNumber">
+            <div class="CDUInputNumber">
+                <h1>Numer Telefonu</h1>
+                <div class="InputNumber">
+                    <input asp-for="ChangeData.CurrentPhoneNumber" class="CssNumber" placeholder="Aktualny Numer Telefonu" readonly />
+                    <span asp-validation-for="ChangeData.CurrentPhoneNumber"></span>
+                </div>
+                <div class="InputNumber">
+                    <input asp-for="ChangeData.NewPhoneNumber" class="CssNumber" placeholder="Nowy Numer Telefonu" />
+                    <span asp-validation-for="ChangeData.NewPhoneNumber"></span>
+                </div>
+                <div class="InputNumber">
+                    <input asp-for="ChangeData.ConfirmPhoneNumber" class="CssNumber" placeholder="Potwierdź Numer Telefonu" />
+                    <span asp-validation-for="ChangeData.ConfirmPhoneNumber"></span>
+                </div>
+                <div class="CDUButton">
+                    <button type="submit">Zatwierdź</button>
+                </div>
             </div>
-
-            <div class="CDUButton">
-                <button>Zatwierdź</button>
-            </div>
-
-        </div>
-
-        <div class="CDUInputEmail">
-
-            <h1>Email</h1>
-
-            <div class="InputMail">
-                <input type="text" class="CssMail" placeholder="Aktualny Email" />
-            </div>
-
-            <div class="InputMail">
-                <input type="text" class="CssMail" placeholder="Nowy Email" />
-            </div>
-
-            <div class="InputMail">
-                <input type="text" class="CssMail" placeholder="Potwierdź Email" />
-            </div>
-
-            <div class="CDUButton">
-                <button>Zatwierdź</button>
-            </div>
-
-        </div>
-
-        <div class="CDUInputNumber">
-
-            <h1>Numer Telefonu</h1>
-
-            <div class="InputNumber">
-                <input type="text" class="CssNumber" placeholder="Aktualny Numer Telefonu" />
-            </div>
-
-            <div class="InputNumber">
-                <input type="text" class="CssNumber" placeholder="Nowy Numer Telefonu" />
-            </div>
-
-            <div class="InputNumber">
-                <input type="text" class="CssNumber" placeholder="Potwierdź Telefonu" />
-            </div>
-
-            <div class="CDUButton">
-                <button>Zatwierdź</button>
-            </div>
-        </div>
-
-
-        
+        </form>
     </div>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 </body>

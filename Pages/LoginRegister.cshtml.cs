@@ -4,8 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using WebProjektRazor.Database;
 using WebProjektRazor.Models.User;
-using WebProjektRazor.Pages.ClientPage;
-using WebProjektRazor.Pages.EmployeePage;
+using System.Threading.Tasks;
 
 namespace WebProjektRazor.Pages
 {
@@ -28,7 +27,6 @@ namespace WebProjektRazor.Pages
             return Page();
         }
 
-
         public async Task<IActionResult> OnPostRegisterAsync()
         {
             var validationResults = new List<ValidationResult>();
@@ -49,6 +47,8 @@ namespace WebProjektRazor.Pages
                 var client = await UserDatabase.AddUserToDatabase(RegisterUser);
                 if (client != null)
                 {
+                    HttpContext.Session.SetInt32("UserId", client.UserId);
+                    HttpContext.Session.SetString("UserType", "Client");
                     return RedirectToPage("ClientPage/ClientUserPanel");
                 }
                 else
@@ -83,7 +83,7 @@ namespace WebProjektRazor.Pages
                 var user = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
                 if (user != null)
                 {
-                    HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                    HttpContext.Session.SetInt32("UserId", user.UserId);
                     HttpContext.Session.SetString("UserType", user is Client ? "Client" : "Employee");
 
                     string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
@@ -97,6 +97,5 @@ namespace WebProjektRazor.Pages
             }
             return Page();
         }
-
     }
 }

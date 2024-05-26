@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using WebProjektRazor.Database;
-using WebProjektRazor.Models.User;
 
 var builder = WebApplication.CreateBuilder(args);
-
-UserDatabase.Initialize(builder.Configuration);
 
 builder.Services.AddSession(options =>
 {
@@ -14,26 +14,23 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddRazorPages();
 
+UserDatabase.Initialize(builder.Configuration);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
-app.UseSession();
-
-app.UseMiddleware<AuthorizationMiddleware>();
 
 app.UseRouting();
 
+app.UseSession();
 app.UseAuthorization();
 
 app.MapRazorPages();
