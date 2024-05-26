@@ -155,29 +155,38 @@ namespace WebProjektRazor.Database
                         cmd.Parameters.AddWithValue("@UserId", userId);
 
                         string hashedPassword = (string)await cmd.ExecuteScalarAsync();
+
+                        Console.WriteLine($"Fetched hashed password for user {userId}: {hashedPassword}");
+
                         if (!BCrypt.Net.BCrypt.Verify(currentPassword, hashedPassword))
                         {
+                            Console.WriteLine("Password verification failed.");
                             return false;
                         }
 
                         string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+                        Console.WriteLine($"New hashed password for user {userId}: {newHashedPassword}");
+
                         cmd.Parameters.Clear();
                         cmd.CommandText = "UPDATE [dbo].[User] SET Password = @NewPassword WHERE UserId = @UserId;";
                         cmd.Parameters.AddWithValue("@NewPassword", newHashedPassword);
                         cmd.Parameters.AddWithValue("@UserId", userId);
 
-                        await cmd.ExecuteNonQueryAsync();
-                        return true;
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        Console.WriteLine($"Rows affected: {rowsAffected}");
+                        return rowsAffected > 0;
                     }
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception during password update: {ex.Message}");
                 throw new Exception("Błąd podczas aktualizacji hasła: " + ex.Message);
             }
-
-
         }
+
+
 
         public static async Task<User?> GetUserById(int userId)
         {
@@ -227,13 +236,15 @@ namespace WebProjektRazor.Database
                         cmd.Parameters.AddWithValue("@NewEmail", newEmail);
                         cmd.Parameters.AddWithValue("@UserId", userId);
 
-                        await cmd.ExecuteNonQueryAsync();
-                        return true;
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        Console.WriteLine($"Rows affected: {rowsAffected}");
+                        return rowsAffected > 0;
                     }
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception during email update: {ex.Message}");
                 throw new Exception("Błąd podczas aktualizacji emaila: " + ex.Message);
             }
         }
@@ -251,13 +262,15 @@ namespace WebProjektRazor.Database
                         cmd.Parameters.AddWithValue("@NewPhoneNumber", newPhoneNumber);
                         cmd.Parameters.AddWithValue("@UserId", userId);
 
-                        await cmd.ExecuteNonQueryAsync();
-                        return true;
+                        int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        Console.WriteLine($"Rows affected: {rowsAffected}");
+                        return rowsAffected > 0;
                     }
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception during phone number update: {ex.Message}");
                 throw new Exception("Błąd podczas aktualizacji numeru telefonu: " + ex.Message);
             }
         }

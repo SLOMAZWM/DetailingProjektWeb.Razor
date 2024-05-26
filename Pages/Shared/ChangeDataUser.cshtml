@@ -36,19 +36,20 @@
                 <h1>Hasło</h1>
                 <div class="InputPassword">
                     <input asp-for="ChangePasswordData.CurrentPassword" class="Csspassword" placeholder="Aktualne Hasło" />
-                    <span asp-validation-for="ChangePasswordData.CurrentPassword"></span>
+                    <span asp-validation-for="ChangePasswordData.CurrentPassword" class="text-danger"></span>
                 </div>
                 <div class="InputPassword">
                     <input asp-for="ChangePasswordData.NewPassword" class="Csspassword" placeholder="Nowe Hasło" />
-                    <span asp-validation-for="ChangePasswordData.NewPassword"></span>
+                    <span asp-validation-for="ChangePasswordData.NewPassword" class="text-danger"></span>
                 </div>
                 <div class="InputPassword">
                     <input asp-for="ChangePasswordData.ConfirmPassword" class="Csspassword" placeholder="Potwierdź Hasło" />
-                    <span asp-validation-for="ChangePasswordData.ConfirmPassword"></span>
+                    <span asp-validation-for="ChangePasswordData.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <div class="CDUButton">
                     <button type="submit">Zatwierdź</button>
                 </div>
+                <span asp-validation-summary="All" class="text-danger"></span>
             </div>
         </form>
 

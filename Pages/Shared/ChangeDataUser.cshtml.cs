@@ -64,11 +64,16 @@ namespace WebProjektRazor.Pages.Shared
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
+                Console.WriteLine("User session not found, redirecting to login.");
                 return RedirectToPage("/LoginRegister");
             }
 
             if (!ModelState.IsValid)
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
                 return Page();
             }
 
@@ -76,9 +81,11 @@ namespace WebProjektRazor.Pages.Shared
             if (!result)
             {
                 ModelState.AddModelError(string.Empty, "Aktualne has³o jest nieprawid³owe.");
+                Console.WriteLine("Invalid current password provided.");
                 return Page();
             }
 
+            Console.WriteLine($"Password changed successfully for user {userId.Value}");
             return RedirectToPage("/ChangeDataUser");
         }
 

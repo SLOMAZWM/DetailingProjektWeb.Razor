@@ -86,6 +86,8 @@ namespace WebProjektRazor.Pages
                     HttpContext.Session.SetInt32("UserId", user.UserId);
                     HttpContext.Session.SetString("UserType", user is Client ? "Client" : "Employee");
 
+                    Console.WriteLine($"User logged in: {user.UserId} - {user.Email}");
+
                     string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
                     return RedirectToPage(redirectPage);
                 }
@@ -97,5 +99,6 @@ namespace WebProjektRazor.Pages
             }
             return Page();
         }
+
     }
 }
