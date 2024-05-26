@@ -12,12 +12,13 @@ namespace WebProjektRazor.Models
         public string Address { get; set; }
 
         public OrderProducts(int orderProductsId = 0, ObservableCollection<Product> products = null!, string status = "brak wyniku", string address = "brak wyniku",
-            int orderId = 0, Employee employeer = null!, Client client = null!) : base(orderId, employeer, client) 
+    int orderId = 0, Employee employeer = null!, Client client = null!) : base(orderId, employeer, client)
         {
             OrderProductsId = orderProductsId;
-            Products = products;
+            Products = products ?? new ObservableCollection<Product>();
             Status = status;
             Address = address;
         }
+
     }
 }
