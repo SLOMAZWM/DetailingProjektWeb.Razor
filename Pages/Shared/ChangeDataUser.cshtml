@@ -9,13 +9,20 @@
 </head>
 
 <body>
-    <div class="ActualData">
-        <center><h1>Aktualne Dane:</h1></center>
-        <p>Imię: @Model.CurrentUser.FirstName</p>
-        <p>Nazwisko: @Model.CurrentUser.LastName</p>
-        <p>Telefon: @Model.CurrentUser.PhoneNumber</p>
-        <p>Email: @Model.CurrentUser.Email</p>
-    </div>
+    @if (Model.CurrentUser != null)
+    {
+        <div class="ActualData">
+            <center><h1>Aktualne Dane:</h1></center>
+            <p>Imię: @Model.CurrentUser.FirstName</p>
+            <p>Nazwisko: @Model.CurrentUser.LastName</p>
+            <p>Telefon: @Model.CurrentUser.PhoneNumber</p>
+            <p>Email: @Model.CurrentUser.Email</p>
+        </div>
+    }
+    else
+    {
+        <p>Wystąpił błąd podczas ładowania danych użytkownika.</p>
+    }
 
     <div class="Line3"></div>
 
@@ -28,16 +35,16 @@
             <div class="CDUInputPasswords">
                 <h1>Hasło</h1>
                 <div class="InputPassword">
-                    <input asp-for="ChangeData.CurrentPassword" class="Csspassword" placeholder="Aktualne Hasło" />
-                    <span asp-validation-for="ChangeData.CurrentPassword"></span>
+                    <input asp-for="ChangePasswordData.CurrentPassword" class="Csspassword" placeholder="Aktualne Hasło" />
+                    <span asp-validation-for="ChangePasswordData.CurrentPassword"></span>
                 </div>
                 <div class="InputPassword">
-                    <input asp-for="ChangeData.NewPassword" class="Csspassword" placeholder="Nowe Hasło" />
-                    <span asp-validation-for="ChangeData.NewPassword"></span>
+                    <input asp-for="ChangePasswordData.NewPassword" class="Csspassword" placeholder="Nowe Hasło" />
+                    <span asp-validation-for="ChangePasswordData.NewPassword"></span>
                 </div>
                 <div class="InputPassword">
-                    <input asp-for="ChangeData.ConfirmPassword" class="Csspassword" placeholder="Potwierdź Hasło" />
-                    <span asp-validation-for="ChangeData.ConfirmPassword"></span>
+                    <input asp-for="ChangePasswordData.ConfirmPassword" class="Csspassword" placeholder="Potwierdź Hasło" />
+                    <span asp-validation-for="ChangePasswordData.ConfirmPassword"></span>
                 </div>
                 <div class="CDUButton">
                     <button type="submit">Zatwierdź</button>
@@ -49,16 +56,16 @@
             <div class="CDUInputEmail">
                 <h1>Email</h1>
                 <div class="InputMail">
-                    <input asp-for="ChangeData.CurrentEmail" class="CssMail" placeholder="Aktualny Email" readonly />
-                    <span asp-validation-for="ChangeData.CurrentEmail"></span>
+                    <input asp-for="ChangeEmailData.CurrentEmail" class="CssMail" placeholder="Aktualny Email" readonly />
+                    <span asp-validation-for="ChangeEmailData.CurrentEmail"></span>
                 </div>
                 <div class="InputMail">
-                    <input asp-for="ChangeData.NewEmail" class="CssMail" placeholder="Nowy Email" />
-                    <span asp-validation-for="ChangeData.NewEmail"></span>
+                    <input asp-for="ChangeEmailData.NewEmail" class="CssMail" placeholder="Nowy Email" />
+                    <span asp-validation-for="ChangeEmailData.NewEmail"></span>
                 </div>
                 <div class="InputMail">
-                    <input asp-for="ChangeData.ConfirmEmail" class="CssMail" placeholder="Potwierdź Email" />
-                    <span asp-validation-for="ChangeData.ConfirmEmail"></span>
+                    <input asp-for="ChangeEmailData.ConfirmEmail" class="CssMail" placeholder="Potwierdź Email" />
+                    <span asp-validation-for="ChangeEmailData.ConfirmEmail"></span>
                 </div>
                 <div class="CDUButton">
                     <button type="submit">Zatwierdź</button>
@@ -70,16 +77,16 @@
             <div class="CDUInputNumber">
                 <h1>Numer Telefonu</h1>
                 <div class="InputNumber">
-                    <input asp-for="ChangeData.CurrentPhoneNumber" class="CssNumber" placeholder="Aktualny Numer Telefonu" readonly />
-                    <span asp-validation-for="ChangeData.CurrentPhoneNumber"></span>
+                    <input asp-for="ChangePhoneNumberData.CurrentPhoneNumber" class="CssNumber" placeholder="Aktualny Numer Telefonu" readonly />
+                    <span asp-validation-for="ChangePhoneNumberData.CurrentPhoneNumber"></span>
                 </div>
                 <div class="InputNumber">
-                    <input asp-for="ChangeData.NewPhoneNumber" class="CssNumber" placeholder="Nowy Numer Telefonu" />
-                    <span asp-validation-for="ChangeData.NewPhoneNumber"></span>
+                    <input asp-for="ChangePhoneNumberData.NewPhoneNumber" class="CssNumber" placeholder="Nowy Numer Telefonu" />
+                    <span asp-validation-for="ChangePhoneNumberData.NewPhoneNumber"></span>
                 </div>
                 <div class="InputNumber">
-                    <input asp-for="ChangeData.ConfirmPhoneNumber" class="CssNumber" placeholder="Potwierdź Numer Telefonu" />
-                    <span asp-validation-for="ChangeData.ConfirmPhoneNumber"></span>
+                    <input asp-for="ChangePhoneNumberData.ConfirmPhoneNumber" class="CssNumber" placeholder="Potwierdź Numer Telefonu" />
+                    <span asp-validation-for="ChangePhoneNumberData.ConfirmPhoneNumber"></span>
                 </div>
                 <div class="CDUButton">
                     <button type="submit">Zatwierdź</button>

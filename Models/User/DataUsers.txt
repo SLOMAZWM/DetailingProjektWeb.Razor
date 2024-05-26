@@ -10,5 +10,6 @@ Pracownicy:
 
 fajnypracownik@gmail.com
 Testy321!PL
+Testy123!PL
 
 zrobic prefix dla numeru telefonu
