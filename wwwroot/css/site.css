@@ -762,25 +762,28 @@ body {
 
 /*====================================================================================================================Changing Data Button==================================================================================================================*/
 
-.CDUButton {
+.CDUButton button {
     margin-top: 10%;
-    width: 30%;
     background-color: #fe935c;
     border: none;
-    border-radius: 2%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-radius: 3%;
     transition: ease-in-out 0.5s;
-    font-size: 100%;
+    font-size: 110%;
     cursor: pointer;
-    font-size: 120%;
     margin-left: auto;
     margin-right: auto;
 }
 
-.CDUButton:hover {
-    background-color: #ff7689;
-    transition: 0.5s;
-    color: white;
-}
+    .CDUButton button:hover {
+        background-color: #C45C5F;
+        transition: 0.5s;
+        color: white;
+    }
+
 
 /*====================================================================================================================Changing Data Button==================================================================================================================*/
 
