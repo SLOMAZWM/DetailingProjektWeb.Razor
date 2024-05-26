@@ -1,0 +1,97 @@
+﻿@page "/ChangeDataUser"
+@model WebProjektRazor.Pages.Shared.ChangeDataUserModel
+@{
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css">
+    <title>Zmiana danych</title>
+</head>
+
+<body>
+
+    <div class="ActualData">
+        <center><h1>Aktualne Dane:</h1></center>
+        <p>Imię:</p>
+        <p>Nazwisko:</p>
+        <p>Telefon:</p>
+        <p>Email:</p>
+    </div>
+
+    <div class="Line3"></div>
+
+    <div class="ChangingOldData">
+        <center><h1>Zmiana Danych</h1></center>
+    </div>
+
+    <div class="container">
+
+        <div class="CDUInputPasswords">
+
+            <h1>Hasło</h1>
+
+            <div class="InputPassword">
+                <input type="password" class="Csspassword" placeholder="Aktualne Hasło" />
+            </div>
+
+            <div class="InputPassword">
+                <input type="password" class="Csspassword" placeholder="Nowe Hasło" />
+            </div>
+
+            <div class="InputPassword">
+                <input type="password" class="Csspassword" placeholder="Potwierdź Hasło" />
+            </div>
+
+            <div class="CDUButton">
+                <button>Zatwierdź</button>
+            </div>
+
+        </div>
+
+        <div class="CDUInputEmail">
+
+            <h1>Email</h1>
+
+            <div class="InputMail">
+                <input type="text" class="CssMail" placeholder="Aktualny Email" />
+            </div>
+
+            <div class="InputMail">
+                <input type="text" class="CssMail" placeholder="Nowy Email" />
+            </div>
+
+            <div class="InputMail">
+                <input type="text" class="CssMail" placeholder="Potwierdź Email" />
+            </div>
+
+            <div class="CDUButton">
+                <button>Zatwierdź</button>
+            </div>
+
+        </div>
+
+        <div class="CDUInputNumber">
+
+            <h1>Numer Telefonu</h1>
+
+            <div class="InputNumber">
+                <input type="text" class="CssNumber" placeholder="Aktualny Numer Telefonu" />
+            </div>
+
+            <div class="InputNumber">
+                <input type="text" class="CssNumber" placeholder="Nowy Numer Telefonu" />
+            </div>
+
+            <div class="InputNumber">
+                <input type="text" class="CssNumber" placeholder="Potwierdź Telefonu" />
+            </div>
+
+            <div class="CDUButton">
+                <button>Zatwierdź</button>
+            </div>
+        </div>
+
+
+        
+    </div>
+</body>
