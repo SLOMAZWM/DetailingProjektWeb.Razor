@@ -7,12 +7,11 @@
         public string Description { get; set; }
         public decimal Price { get; set; }
 
-        public Service(int serviceId = 0, string name = "brak wyniku", string description = "brak wyniku", decimal price = 0)
+        public virtual ICollection<OrderService> OrderServices { get; set; }
+
+        public Service()
         {
-            ServiceId = serviceId;
-            Name = name;
-            Description = description;
-            Price = price;
+            OrderServices = new List<OrderService>();
         }
     }
 }

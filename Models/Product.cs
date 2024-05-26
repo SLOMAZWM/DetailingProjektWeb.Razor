@@ -7,12 +7,11 @@
         public short Quantity { get; set; }
         public decimal Price { get; set; }
 
-        public Product(int productId = 0, string name = "brak wyniku", short quantity = 0, decimal price = 0)
+        public virtual ICollection<OrderProducts> OrderProducts { get; set; }
+
+        public Product()
         {
-            ProductId = productId;
-            Name = name;
-            Quantity = quantity;
-            Price = price;
+            OrderProducts = new List<OrderProducts>();
         }
     }
 }

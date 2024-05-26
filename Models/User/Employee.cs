@@ -1,16 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace WebProjektRazor.Models.User
 {
     public class Employee : User
     {
-        public int EmployeeId { get; set; }
         public string Position { get; set; } = string.Empty;
-        public ObservableCollection<Order> AssignedOrders { get; set; }
+        public virtual ICollection<Order> AssignedOrders { get; set; }
 
-        public Employee() : base()
+        public Employee()
         {
-            AssignedOrders = new ObservableCollection<Order>();
+            AssignedOrders = new List<Order>();
         }
     }
 }

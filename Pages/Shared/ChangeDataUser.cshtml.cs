@@ -5,11 +5,22 @@ using WebProjektRazor.Database;
 using WebProjektRazor.Models.User.ViewModel;
 using Microsoft.AspNetCore.Http;
 using WebProjektRazor.Models.User;
+using Microsoft.Extensions.Logging;
+using BCrypt.Net;
 
 namespace WebProjektRazor.Pages.Shared
 {
     public class ChangeDataUserModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<ChangeDataUserModel> _logger;
+
+        public ChangeDataUserModel(ApplicationDbContext context, ILogger<ChangeDataUserModel> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
         [BindProperty]
         public ChangePasswordViewModel ChangePasswordData { get; set; }
 
@@ -29,7 +40,7 @@ namespace WebProjektRazor.Pages.Shared
                 return RedirectToPage("/LoginRegister");
             }
 
-            CurrentUser = await UserDatabase.GetUserById(userId.Value);
+            CurrentUser = await _context.Users.FindAsync(userId.Value);
             if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
@@ -53,7 +64,7 @@ namespace WebProjektRazor.Pages.Shared
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId != null)
             {
-                CurrentUser = await UserDatabase.GetUserById(userId.Value);
+                CurrentUser = await _context.Users.FindAsync(userId.Value);
             }
         }
 
@@ -64,7 +75,7 @@ namespace WebProjektRazor.Pages.Shared
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
-                Console.WriteLine("User session not found, redirecting to login.");
+                _logger.LogWarning("User session not found, redirecting to login.");
                 return RedirectToPage("/LoginRegister");
             }
 
@@ -72,20 +83,23 @@ namespace WebProjektRazor.Pages.Shared
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                    _logger.LogWarning($"Validation error: {error.ErrorMessage}");
                 }
                 return Page();
             }
 
-            var result = await UserDatabase.UpdateUserPassword(userId.Value.ToString(), ChangePasswordData.CurrentPassword, ChangePasswordData.NewPassword);
-            if (!result)
+            var user = await _context.Users.FindAsync(userId.Value);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(ChangePasswordData.CurrentPassword, user.Password))
             {
                 ModelState.AddModelError(string.Empty, "Aktualne has³o jest nieprawid³owe.");
-                Console.WriteLine("Invalid current password provided.");
+                _logger.LogWarning("Invalid current password provided.");
                 return Page();
             }
 
-            Console.WriteLine($"Password changed successfully for user {userId.Value}");
+            user.Password = BCrypt.Net.BCrypt.HashPassword(ChangePasswordData.NewPassword);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation($"Password changed successfully for user {userId.Value}");
             return RedirectToPage("/ChangeDataUser");
         }
 
@@ -104,12 +118,14 @@ namespace WebProjektRazor.Pages.Shared
                 return Page();
             }
 
-            var result = await UserDatabase.UpdateUserEmail(userId.Value.ToString(), ChangeEmailData.NewEmail);
-            if (!result)
+            var user = await _context.Users.FindAsync(userId.Value);
+            if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Nie uda³o siê zmieniæ emaila.");
-                return Page();
+                return RedirectToPage("/LoginRegister");
             }
+
+            user.Email = ChangeEmailData.NewEmail;
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/ChangeDataUser");
         }
@@ -129,12 +145,14 @@ namespace WebProjektRazor.Pages.Shared
                 return Page();
             }
 
-            var result = await UserDatabase.UpdateUserPhoneNumber(userId.Value.ToString(), ChangePhoneNumberData.NewPhoneNumber);
-            if (!result)
+            var user = await _context.Users.FindAsync(userId.Value);
+            if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Nie uda³o siê zmieniæ numeru telefonu.");
-                return Page();
+                return RedirectToPage("/LoginRegister");
             }
+
+            user.PhoneNumber = ChangePhoneNumberData.NewPhoneNumber;
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/ChangeDataUser");
         }

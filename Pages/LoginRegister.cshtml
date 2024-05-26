@@ -2,39 +2,36 @@
 @using WebProjektRazor.Models
 @model WebProjektRazor.Pages.LoginRegisterModel
 
-
 <head>
     <link rel="stylesheet" href="~/css/site.css">
     <title>Logowanie i Rejestracja</title>
 </head>
 <div class="container">
-<div class="Login">
-    <div class="LoginForm">
-        <h1 class="LoginSticker">Login</h1>
-        <form method="post" asp-page-handler="Login">
-            <input class="EmailLog" asp-for="LoginUser.Email" type="text" placeholder="Email" />
-            <input class="PasswordLog" asp-for="LoginUser.Password" type="password" placeholder="Hasło" />
-            <button class="LoginBttn" type="submit">Zaloguj</button> 
-        </form>
+    <div class="Login">
+        <div class="LoginForm">
+            <h1 class="LoginSticker">Login</h1>
+            <form method="post" asp-page-handler="Login">
+                <input class="EmailLog" asp-for="LoginUser.Email" type="text" placeholder="Email" />
+                <input class="PasswordLog" asp-for="LoginUser.Password" type="password" placeholder="Hasło" />
+                <button class="LoginBttn" type="submit">Zaloguj</button>
+            </form>
+        </div>
     </div>
-</div>
 
+    <div class="Line"></div>
 
-<div class="Line"></div>
-
-
-<div class="Register">
-    <div class="RegisterForm">
-        <h1 class="RegisterSticker">Rejestracja</h1>
-        <form method="post" asp-page-handler="Register">
-            <input class="FirstNameReg" asp-for="RegisterUser.FirstName" type="text" placeholder="Imię" />
-            <input class="LastNameReg" asp-for="RegisterUser.LastName" type="text" placeholder="Nazwisko" />
-            <input class="PhoneNumberReg"  asp-for="RegisterUser.PhoneNumber" type="text" placeholder="Telefon" />
-            <input class="EmailReg" asp-for="RegisterUser.Email" type="text" placeholder="Email" />
-            <input class="PasswordReg" asp-for="RegisterUser.Password" type="password" placeholder="Hasło" />
-            <button class="RegisterBttn" type="submit">Zarejestruj</button>
-        </form>
+    <div class="Register">
+        <div class="RegisterForm">
+            <h1 class="RegisterSticker">Rejestracja</h1>
+            <form method="post" asp-page-handler="Register">
+                <input class="FirstNameReg" asp-for="RegisterUser.FirstName" type="text" placeholder="Imię" />
+                <input class="LastNameReg" asp-for="RegisterUser.LastName" type="text" placeholder="Nazwisko" />
+                <input class="PhoneNumberReg" asp-for="RegisterUser.PhoneNumber" type="text" placeholder="Telefon" />
+                <input class="EmailReg" asp-for="RegisterUser.Email" type="text" placeholder="Email" />
+                <input class="PasswordReg" asp-for="RegisterUser.Password" type="password" placeholder="Hasło" />
+                <button class="RegisterBttn" type="submit">Zarejestruj</button>
+            </form>
+        </div>
     </div>
-</div>
 </div>
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>

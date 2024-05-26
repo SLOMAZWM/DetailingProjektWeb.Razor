@@ -5,11 +5,20 @@ using System.Collections.Generic;
 using WebProjektRazor.Database;
 using WebProjektRazor.Models.User;
 using System.Threading.Tasks;
+using BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebProjektRazor.Pages
 {
     public class LoginRegisterModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+
+        public LoginRegisterModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [BindProperty]
         public RegisterUser? RegisterUser { get; set; }
 
@@ -44,18 +53,23 @@ namespace WebProjektRazor.Pages
 
             try
             {
-                var client = await UserDatabase.AddUserToDatabase(RegisterUser);
-                if (client != null)
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(RegisterUser.Password);
+                var client = new Client
                 {
-                    HttpContext.Session.SetInt32("UserId", client.UserId);
-                    HttpContext.Session.SetString("UserType", "Client");
-                    return RedirectToPage("ClientPage/ClientUserPanel");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Nie uda³o siê zarejestrowaæ u¿ytkownika.");
-                    return Page();
-                }
+                    FirstName = RegisterUser.FirstName,
+                    LastName = RegisterUser.LastName,
+                    Email = RegisterUser.Email,
+                    Password = hashedPassword,
+                    PhoneNumber = RegisterUser.PhoneNumber,
+                    Role = UserRole.Client
+                };
+
+                _context.Clients.Add(client);
+                await _context.SaveChangesAsync();
+
+                HttpContext.Session.SetInt32("UserId", client.UserId);
+                HttpContext.Session.SetString("UserType", "Client");
+                return RedirectToPage("ClientPage/ClientUserPanel");
             }
             catch (Exception ex)
             {
@@ -80,13 +94,11 @@ namespace WebProjektRazor.Pages
 
             try
             {
-                var user = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
-                if (user != null)
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == LoginUser.Email);
+                if (user != null && BCrypt.Net.BCrypt.Verify(LoginUser.Password, user.Password))
                 {
                     HttpContext.Session.SetInt32("UserId", user.UserId);
                     HttpContext.Session.SetString("UserType", user is Client ? "Client" : "Employee");
-
-                    Console.WriteLine($"User logged in: {user.UserId} - {user.Email}");
 
                     string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
                     return RedirectToPage(redirectPage);
@@ -99,6 +111,5 @@ namespace WebProjektRazor.Pages
             }
             return Page();
         }
-
     }
 }
