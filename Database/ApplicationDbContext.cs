@@ -26,9 +26,14 @@ namespace WebProjektRazor.Database
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
-                .HasDiscriminator<UserRole>("Role")
-                .HasValue<Client>(UserRole.Client)
-                .HasValue<Employee>(UserRole.Employee);
+                .HasOne(u => u.Client)
+                .WithOne(c => c.User)
+                .HasForeignKey<Client>(c => c.UserId);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Employee)
+                .WithOne(e => e.User)
+                .HasForeignKey<Employee>(e => e.UserId);
 
             modelBuilder.Entity<Client>()
                 .HasMany(c => c.HistoryProductsOrders)
@@ -59,7 +64,6 @@ namespace WebProjektRazor.Database
                 .HasOne(c => c.Client)
                 .WithMany()
                 .HasForeignKey(c => c.ClientId);
-
         }
     }
 }

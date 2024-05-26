@@ -6,7 +6,7 @@ namespace WebProjektRazor.Models
     {
         public int CarId { get; set; }
         public int ClientId { get; set; }
-        public virtual Client Client { get; set; } = null!;
+        public virtual Client Client { get; set; }
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public int Year { get; set; }

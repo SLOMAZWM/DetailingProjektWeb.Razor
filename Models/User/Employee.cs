@@ -2,8 +2,11 @@
 
 namespace WebProjektRazor.Models.User
 {
-    public class Employee : User
+    public class Employee
     {
+        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public string Position { get; set; } = string.Empty;
         public virtual ICollection<Order> AssignedOrders { get; set; }
 
