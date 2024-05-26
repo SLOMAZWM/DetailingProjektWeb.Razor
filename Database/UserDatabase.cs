@@ -68,7 +68,7 @@ namespace WebProjektRazor.Database
                     catch (Exception ex)
                     {
                         await transaction.RollbackAsync();
-                        return null;
+                        throw new Exception("Błąd podczas rejestrowania: " + ex.Message);
                     }
                 }
             }
