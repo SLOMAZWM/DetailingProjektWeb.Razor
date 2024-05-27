@@ -1,17 +1,22 @@
 ﻿@page "/ChangeDataUser"
 @model WebProjektRazor.Pages.Shared.ChangeDataUserModel
 @{
-    Layout = null;
+    ViewData["Title"] = "Zmiana Danych";
 }
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Zmiana danych</title>
     <link rel="stylesheet" href="~/css/site.css">
 </head>
 <body>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
     @if (Model.CurrentUser != null)
     {
         <div class="ActualData">
@@ -86,11 +91,11 @@
                 </div>
                 <div class="InputNumber">
                     <input asp-for="ChangePhoneNumberData.NewPhoneNumber" class="CssNumber" placeholder="Nowy Numer Telefonu" />
-                    <span asp-validation-for="ChangePhoneNumberData.NewPhoneNumber"></span>
+                    <span asp-validation-for="ChangePhoneNumberData.NewPhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="InputNumber">
                     <input asp-for="ChangePhoneNumberData.ConfirmPhoneNumber" class="CssNumber" placeholder="Potwierdź Numer Telefonu" />
-                    <span asp-validation-for="ChangePhoneNumberData.ConfirmPhoneNumber"></span>
+                    <span asp-validation-for="ChangePhoneNumberData.ConfirmPhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="CDUButton">
                     <button type="submit">Zatwierdź</button>
@@ -102,4 +107,3 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 </body>
-</html>
