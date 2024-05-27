@@ -4,10 +4,6 @@ namespace WebProjektRazor.Models.User.ViewModels
 {
     public class ChangeEmailViewModel
     {
-        [Required(ErrorMessage = "Aktualny email jest wymagany.")]
-        [EmailAddress(ErrorMessage = "Nieprawidłowy format email.")]
-        public string CurrentEmail { get; set; }
-
         [Required(ErrorMessage = "Nowy email jest wymagany.")]
         [EmailAddress(ErrorMessage = "Nieprawidłowy format email.")]
         public string NewEmail { get; set; }
