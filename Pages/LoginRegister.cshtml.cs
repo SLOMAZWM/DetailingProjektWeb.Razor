@@ -7,7 +7,7 @@ using WebProjektRazor.Models.User;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebProjektRazor.Models.User.ViewModel;
+using WebProjektRazor.Models.User.ViewModels;
 using Microsoft.AspNetCore.Http;
 
 namespace WebProjektRazor.Pages
@@ -26,7 +26,7 @@ namespace WebProjektRazor.Pages
         }
 
         [BindProperty]
-        public RegisterUser? RegisterUser { get; set; }
+        public RegisterUserViewModel? RegisterUser { get; set; }
 
         [BindProperty]
         public LoginUserViewModel? LoginUser { get; set; }

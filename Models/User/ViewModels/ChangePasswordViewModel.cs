@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebProjektRazor.Models.User.ViewModel
+namespace WebProjektRazor.Models.User.ViewModels
 {
     public class ChangePasswordViewModel
     {

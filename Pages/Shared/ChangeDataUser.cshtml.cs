@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using WebProjektRazor.Database;
-using WebProjektRazor.Models.User.ViewModel;
+using WebProjektRazor.Models.User.ViewModels;
 using Microsoft.AspNetCore.Http;
 using WebProjektRazor.Models.User;
 using Microsoft.Extensions.Logging;

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebProjektRazor.Models.User.ViewModel
+namespace WebProjektRazor.Models.User.ViewModels
 {
-    public class RegisterUser
+    public class RegisterUserViewModel
     {
         [Required(ErrorMessage = "Imię jest wymagane.")]
         [StringLength(50, ErrorMessage = "Imię musi mieć co najmniej 3 znaki i mniej niż 50 znaków.", MinimumLength = 3)]
