@@ -2,14 +2,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using WebProjektRazor.Database;
-using WebProjektRazor.Models.User.ViewModel;
+using WebProjektRazor.Models.User.ViewModels;
 using Microsoft.AspNetCore.Http;
 using WebProjektRazor.Models.User;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebProjektRazor.Pages.Shared
 {
     public class ChangeDataUserModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger<ChangeDataUserModel> _logger;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+
+        public ChangeDataUserModel(
+            ApplicationDbContext context,
+            ILogger<ChangeDataUserModel> logger,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
+        {
+            _context = context;
+            _logger = logger;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
         [BindProperty]
         public ChangePasswordViewModel ChangePasswordData { get; set; }
 
@@ -29,7 +48,7 @@ namespace WebProjektRazor.Pages.Shared
                 return RedirectToPage("/LoginRegister");
             }
 
-            CurrentUser = await UserDatabase.GetUserById(userId.Value);
+            CurrentUser = await _userManager.FindByIdAsync(userId.Value.ToString());
             if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
@@ -53,7 +72,7 @@ namespace WebProjektRazor.Pages.Shared
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId != null)
             {
-                CurrentUser = await UserDatabase.GetUserById(userId.Value);
+                CurrentUser = await _userManager.FindByIdAsync(userId.Value.ToString());
             }
         }
 
@@ -61,31 +80,29 @@ namespace WebProjektRazor.Pages.Shared
         {
             await LoadCurrentUserAsync();
 
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            if (CurrentUser == null)
             {
-                Console.WriteLine("User session not found, redirecting to login.");
                 return RedirectToPage("/LoginRegister");
             }
 
             if (!ModelState.IsValid)
             {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                return Page();
+            }
+
+            var result = await _userManager.ChangePasswordAsync(CurrentUser, ChangePasswordData.CurrentPassword, ChangePasswordData.NewPassword);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
                 {
-                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
                 return Page();
             }
 
-            var result = await UserDatabase.UpdateUserPassword(userId.Value.ToString(), ChangePasswordData.CurrentPassword, ChangePasswordData.NewPassword);
-            if (!result)
-            {
-                ModelState.AddModelError(string.Empty, "Aktualne has³o jest nieprawid³owe.");
-                Console.WriteLine("Invalid current password provided.");
-                return Page();
-            }
+            await _signInManager.RefreshSignInAsync(CurrentUser);
 
-            Console.WriteLine($"Password changed successfully for user {userId.Value}");
+            _logger.LogInformation("User changed their password successfully.");
             return RedirectToPage("/ChangeDataUser");
         }
 
@@ -93,8 +110,7 @@ namespace WebProjektRazor.Pages.Shared
         {
             await LoadCurrentUserAsync();
 
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
             }
@@ -104,13 +120,19 @@ namespace WebProjektRazor.Pages.Shared
                 return Page();
             }
 
-            var result = await UserDatabase.UpdateUserEmail(userId.Value.ToString(), ChangeEmailData.NewEmail);
-            if (!result)
+            var result = await _userManager.SetEmailAsync(CurrentUser, ChangeEmailData.NewEmail);
+            if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Nie uda³o siê zmieniæ emaila.");
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
                 return Page();
             }
 
+            await _signInManager.RefreshSignInAsync(CurrentUser);
+
+            _logger.LogInformation("User changed their email successfully.");
             return RedirectToPage("/ChangeDataUser");
         }
 
@@ -118,8 +140,7 @@ namespace WebProjektRazor.Pages.Shared
         {
             await LoadCurrentUserAsync();
 
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
             }
@@ -129,13 +150,19 @@ namespace WebProjektRazor.Pages.Shared
                 return Page();
             }
 
-            var result = await UserDatabase.UpdateUserPhoneNumber(userId.Value.ToString(), ChangePhoneNumberData.NewPhoneNumber);
-            if (!result)
+            var result = await _userManager.SetPhoneNumberAsync(CurrentUser, ChangePhoneNumberData.NewPhoneNumber);
+            if (!result.Succeeded)
             {
-                ModelState.AddModelError(string.Empty, "Nie uda³o siê zmieniæ numeru telefonu.");
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
                 return Page();
             }
 
+            await _signInManager.RefreshSignInAsync(CurrentUser);
+
+            _logger.LogInformation("User changed their phone number successfully.");
             return RedirectToPage("/ChangeDataUser");
         }
     }

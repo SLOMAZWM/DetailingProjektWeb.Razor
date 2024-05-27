@@ -5,16 +5,31 @@ using System.Collections.Generic;
 using WebProjektRazor.Database;
 using WebProjektRazor.Models.User;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebProjektRazor.Models.User.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace WebProjektRazor.Pages
 {
     public class LoginRegisterModel : PageModel
     {
-        [BindProperty]
-        public RegisterUser? RegisterUser { get; set; }
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+
+        public LoginRegisterModel(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        {
+            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
 
         [BindProperty]
-        public LoginUser? LoginUser { get; set; }
+        public RegisterUserViewModel? RegisterUser { get; set; }
+
+        [BindProperty]
+        public LoginUserViewModel? LoginUser { get; set; }
 
         public IActionResult OnGet()
         {
@@ -29,76 +44,71 @@ namespace WebProjektRazor.Pages
 
         public async Task<IActionResult> OnPostRegisterAsync()
         {
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(RegisterUser, serviceProvider: null, items: null);
 
-            bool isValid = Validator.TryValidateObject(RegisterUser, validationContext, validationResults, true);
-            if (!isValid)
+            var user = new User
             {
-                foreach (var validationResult in validationResults)
+                UserName = RegisterUser.Email,
+                Email = RegisterUser.Email,
+                FirstName = RegisterUser.FirstName,
+                LastName = RegisterUser.LastName,
+                PhoneNumber = RegisterUser.PhoneNumber,
+                Role = UserRole.Client
+            };
+
+            var result = await _userManager.CreateAsync(user, RegisterUser.Password);
+
+            if (result.Succeeded)
+            {
+                Console.WriteLine("User created successfully.");
+
+                var client = new Client
                 {
-                    ModelState.AddModelError("", validationResult.ErrorMessage);
-                }
-                return Page();
+                    UserId = user.Id
+                };
+
+                _context.Clients.Add(client);
+                await _context.SaveChangesAsync();  
+                Console.WriteLine("Client added successfully.");
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
+                HttpContext.Session.SetString("UserType", "Client");
+
+                return RedirectToPage("/ClientPage/ClientUserPanel"); 
             }
 
-            try
+            foreach (var error in result.Errors)
             {
-                var client = await UserDatabase.AddUserToDatabase(RegisterUser);
-                if (client != null)
-                {
-                    HttpContext.Session.SetInt32("UserId", client.UserId);
-                    HttpContext.Session.SetString("UserType", "Client");
-                    return RedirectToPage("ClientPage/ClientUserPanel");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Nie uda³o siê zarejestrowaæ u¿ytkownika.");
-                    return Page();
-                }
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Wyst¹pi³ b³¹d podczas rejestracji: " + ex.Message);
-                return Page();
-            }
-        }
-
-        public async Task<IActionResult> OnPostLoginAsync()
-        {
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(LoginUser, serviceProvider: null, items: null);
-
-            if (!Validator.TryValidateObject(LoginUser, validationContext, validationResults, true))
-            {
-                foreach (var validationResult in validationResults)
-                {
-                    ModelState.AddModelError("", validationResult.ErrorMessage);
-                }
-                return Page();
+                Console.WriteLine($"Error: {error.Description}");
+                ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            try
-            {
-                var user = await UserDatabase.TryLoginUser(LoginUser.Email, LoginUser.Password);
-                if (user != null)
-                {
-                    HttpContext.Session.SetInt32("UserId", user.UserId);
-                    HttpContext.Session.SetString("UserType", user is Client ? "Client" : "Employee");
-
-                    Console.WriteLine($"User logged in: {user.UserId} - {user.Email}");
-
-                    string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
-                    return RedirectToPage(redirectPage);
-                }
-                ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Wyst¹pi³ b³¹d podczas logowania: " + ex.Message);
-            }
             return Page();
         }
 
+
+
+
+        public async Task<IActionResult> OnPostLoginAsync()
+        {
+            var user = await _userManager.FindByEmailAsync(LoginUser.Email);
+            if (user != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user, LoginUser.Password, isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    HttpContext.Session.SetString("UserId", user.Id.ToString());
+                    HttpContext.Session.SetString("UserType", user.Role == UserRole.Client ? "Client" : "Employee");
+
+                    string redirectPage = user.Role == UserRole.Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
+                    return RedirectToPage(redirectPage);
+                }
+            }
+
+            ModelState.AddModelError(string.Empty, "Nieprawid³owy email lub has³o.");
+            return Page();
+        }
     }
 }

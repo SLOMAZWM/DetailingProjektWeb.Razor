@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="shortcut icon" href="~/Pictures/shortcut.PNG">
+    <title>@ViewData["Title"] - WebProjektRazor</title>
 </head>
 <body>
     <main>
@@ -19,5 +20,6 @@
         </div>
         @RenderBody()
     </main>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

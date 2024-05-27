@@ -1,13 +1,16 @@
 ﻿@page "/ChangeDataUser"
 @model WebProjektRazor.Pages.Shared.ChangeDataUserModel
 @{
+    Layout = null;
 }
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="~/css/site.css">
+    <meta charset="utf-8" />
     <title>Zmiana danych</title>
+    <link rel="stylesheet" href="~/css/site.css">
 </head>
-
 <body>
     @if (Model.CurrentUser != null)
     {
@@ -99,3 +102,4 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 </body>
+</html>
