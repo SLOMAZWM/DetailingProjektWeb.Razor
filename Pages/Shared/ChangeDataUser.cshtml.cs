@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using WebProjektRazor.Database;
 using WebProjektRazor.Models.User.ViewModels;
-using Microsoft.AspNetCore.Http;
 using WebProjektRazor.Models.User;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
@@ -42,38 +41,32 @@ namespace WebProjektRazor.Pages.Shared
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
+                _logger.LogWarning("User not found, redirecting to LoginRegister.");
                 return RedirectToPage("/LoginRegister");
             }
 
-            CurrentUser = await _userManager.FindByIdAsync(userId.Value.ToString());
-            if (CurrentUser == null)
-            {
-                return RedirectToPage("/LoginRegister");
-            }
+            CurrentUser = user;
 
             ChangeEmailData = new ChangeEmailViewModel
             {
-                CurrentEmail = CurrentUser.Email
+                CurrentEmail = user.Email
             };
 
             ChangePhoneNumberData = new ChangePhoneNumberViewModel
             {
-                CurrentPhoneNumber = CurrentUser.PhoneNumber
+                CurrentPhoneNumber = user.PhoneNumber
             };
 
+            _logger.LogInformation("ChangeDataUser page loaded successfully.");
             return Page();
         }
 
         private async Task LoadCurrentUserAsync()
         {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId != null)
-            {
-                CurrentUser = await _userManager.FindByIdAsync(userId.Value.ToString());
-            }
+            CurrentUser = await _userManager.GetUserAsync(User);
         }
 
         public async Task<IActionResult> OnPostChangePasswordAsync()
@@ -83,11 +76,6 @@ namespace WebProjektRazor.Pages.Shared
             if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
             }
 
             var result = await _userManager.ChangePasswordAsync(CurrentUser, ChangePasswordData.CurrentPassword, ChangePasswordData.NewPassword);
@@ -103,7 +91,7 @@ namespace WebProjektRazor.Pages.Shared
             await _signInManager.RefreshSignInAsync(CurrentUser);
 
             _logger.LogInformation("User changed their password successfully.");
-            return RedirectToPage("/ChangeDataUser");
+            return RedirectToPage("/Shared/ChangeDataUser");
         }
 
         public async Task<IActionResult> OnPostChangeEmailAsync()
@@ -113,11 +101,6 @@ namespace WebProjektRazor.Pages.Shared
             if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
             }
 
             var result = await _userManager.SetEmailAsync(CurrentUser, ChangeEmailData.NewEmail);
@@ -133,7 +116,7 @@ namespace WebProjektRazor.Pages.Shared
             await _signInManager.RefreshSignInAsync(CurrentUser);
 
             _logger.LogInformation("User changed their email successfully.");
-            return RedirectToPage("/ChangeDataUser");
+            return RedirectToPage("/Shared/ChangeDataUser");
         }
 
         public async Task<IActionResult> OnPostChangePhoneNumberAsync()
@@ -143,11 +126,6 @@ namespace WebProjektRazor.Pages.Shared
             if (CurrentUser == null)
             {
                 return RedirectToPage("/LoginRegister");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
             }
 
             var result = await _userManager.SetPhoneNumberAsync(CurrentUser, ChangePhoneNumberData.NewPhoneNumber);
@@ -163,7 +141,7 @@ namespace WebProjektRazor.Pages.Shared
             await _signInManager.RefreshSignInAsync(CurrentUser);
 
             _logger.LogInformation("User changed their phone number successfully.");
-            return RedirectToPage("/ChangeDataUser");
+            return RedirectToPage("/Shared/ChangeDataUser");
         }
     }
 }
