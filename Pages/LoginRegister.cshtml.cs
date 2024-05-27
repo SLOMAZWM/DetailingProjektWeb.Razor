@@ -44,10 +44,6 @@ namespace WebProjektRazor.Pages
 
         public async Task<IActionResult> OnPostRegisterAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
             var user = new User
             {
@@ -63,36 +59,39 @@ namespace WebProjektRazor.Pages
 
             if (result.Succeeded)
             {
+                Console.WriteLine("User created successfully.");
+
                 var client = new Client
                 {
                     UserId = user.Id
                 };
 
                 _context.Clients.Add(client);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();  
+                Console.WriteLine("Client added successfully.");
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("UserType", "Client");
-                return RedirectToPage("ClientPage/ClientUserPanel");
+
+                return RedirectToPage("/ClientPage/ClientUserPanel"); 
             }
 
             foreach (var error in result.Errors)
             {
+                Console.WriteLine($"Error: {error.Description}");
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
             return Page();
         }
 
+
+
+
         public async Task<IActionResult> OnPostLoginAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
             var user = await _userManager.FindByEmailAsync(LoginUser.Email);
             if (user != null)
             {
