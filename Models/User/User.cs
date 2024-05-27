@@ -28,9 +28,6 @@ namespace WebProjektRazor.Models.User
         public string PhoneNumber { get; set; } = string.Empty;
 
         public UserRole Role { get; set; }
-
-        public Client Client { get; set; }
-        public Employee Employee { get; set; }
     }
 
     public enum UserRole

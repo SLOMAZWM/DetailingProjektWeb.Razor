@@ -54,7 +54,7 @@ namespace WebProjektRazor.Pages
             try
             {
                 var hashedPassword = BCrypt.Net.BCrypt.HashPassword(RegisterUser.Password);
-                var client = new Client
+                var user = new User
                 {
                     FirstName = RegisterUser.FirstName,
                     LastName = RegisterUser.LastName,
@@ -64,10 +64,18 @@ namespace WebProjektRazor.Pages
                     Role = UserRole.Client
                 };
 
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+
+                var client = new Client
+                {
+                    UserId = user.UserId
+                };
+
                 _context.Clients.Add(client);
                 await _context.SaveChangesAsync();
 
-                HttpContext.Session.SetInt32("UserId", client.UserId);
+                HttpContext.Session.SetInt32("UserId", user.UserId);
                 HttpContext.Session.SetString("UserType", "Client");
                 return RedirectToPage("ClientPage/ClientUserPanel");
             }
@@ -98,9 +106,9 @@ namespace WebProjektRazor.Pages
                 if (user != null && BCrypt.Net.BCrypt.Verify(LoginUser.Password, user.Password))
                 {
                     HttpContext.Session.SetInt32("UserId", user.UserId);
-                    HttpContext.Session.SetString("UserType", user is Client ? "Client" : "Employee");
+                    HttpContext.Session.SetString("UserType", user.Role == UserRole.Client ? "Client" : "Employee");
 
-                    string redirectPage = user is Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
+                    string redirectPage = user.Role == UserRole.Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
                     return RedirectToPage(redirectPage);
                 }
                 ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");

@@ -8,11 +8,7 @@ namespace WebProjektRazor.Models.User
         public int UserId { get; set; }
         public User User { get; set; }
         public string Position { get; set; } = string.Empty;
-        public virtual ICollection<Order> AssignedOrders { get; set; }
 
-        public Employee()
-        {
-            AssignedOrders = new List<Order>();
-        }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

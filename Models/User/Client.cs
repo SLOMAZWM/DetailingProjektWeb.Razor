@@ -8,13 +8,7 @@ namespace WebProjektRazor.Models.User
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public virtual ICollection<OrderProducts> HistoryProductsOrders { get; set; }
-        public virtual ICollection<OrderService> HistoryServiceOrders { get; set; }
-
-        public Client()
-        {
-            HistoryProductsOrders = new List<OrderProducts>();
-            HistoryServiceOrders = new List<OrderService>();
-        }
+        public virtual ICollection<Car> Cars { get; set; } = new List<Car>();
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

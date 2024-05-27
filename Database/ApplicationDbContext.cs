@@ -25,30 +25,25 @@ namespace WebProjektRazor.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Client)
-                .WithOne(c => c.User)
-                .HasForeignKey<Client>(c => c.UserId);
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Employee)
-                .WithOne(e => e.User)
-                .HasForeignKey<Employee>(e => e.UserId);
+            modelBuilder.Entity<Service>()
+                .Property(s => s.Price)
+                .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<Client>()
-                .HasMany(c => c.HistoryProductsOrders)
-                .WithOne(op => op.Client)
-                .HasForeignKey(op => op.ClientId);
-
-            modelBuilder.Entity<Client>()
-                .HasMany(c => c.HistoryServiceOrders)
-                .WithOne(os => os.Client)
-                .HasForeignKey(os => os.ClientId);
+                .HasOne(c => c.User)
+                .WithOne()
+                .HasForeignKey<Client>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Employee>()
-                .HasMany(e => e.AssignedOrders)
-                .WithOne(o => o.Employee)
-                .HasForeignKey(o => o.EmployeeId);
+                .HasOne(e => e.User)
+                .WithOne()
+                .HasForeignKey<Employee>(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderProducts>()
                 .HasMany(op => op.Products)
@@ -62,8 +57,27 @@ namespace WebProjektRazor.Database
 
             modelBuilder.Entity<Car>()
                 .HasOne(c => c.Client)
+                .WithMany(c => c.Cars)
+                .HasForeignKey(c => c.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Client)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(o => o.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Employee)
+                .WithMany(e => e.Orders)
+                .HasForeignKey(o => o.EmployeeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Car)
                 .WithMany()
-                .HasForeignKey(c => c.ClientId);
+                .HasForeignKey(o => o.CarId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
