@@ -78,6 +78,13 @@ namespace WebProjektRazor.Pages.Shared
                 return RedirectToPage("/LoginRegister");
             }
 
+            var passwordCheck = await _userManager.CheckPasswordAsync(CurrentUser, ChangePasswordData.CurrentPassword);
+            if (!passwordCheck)
+            {
+                ModelState.AddModelError(string.Empty, "Aktualne has³o jest nieprawid³owe.");
+                return Page();
+            }
+
             var result = await _userManager.ChangePasswordAsync(CurrentUser, ChangePasswordData.CurrentPassword, ChangePasswordData.NewPassword);
             if (!result.Succeeded)
             {
@@ -90,7 +97,7 @@ namespace WebProjektRazor.Pages.Shared
 
             await _signInManager.RefreshSignInAsync(CurrentUser);
 
-            _logger.LogInformation("User changed their password successfully.");
+            TempData["SuccessMessage"] = "Has³o zosta³o pomyœlnie zmienione.";
             return RedirectToPage("/Shared/ChangeDataUser");
         }
 
@@ -115,7 +122,7 @@ namespace WebProjektRazor.Pages.Shared
 
             await _signInManager.RefreshSignInAsync(CurrentUser);
 
-            _logger.LogInformation("User changed their email successfully.");
+            TempData["SuccessMessage"] = "Email zosta³ pomyœlnie zmieniony.";
             return RedirectToPage("/Shared/ChangeDataUser");
         }
 
@@ -140,7 +147,7 @@ namespace WebProjektRazor.Pages.Shared
 
             await _signInManager.RefreshSignInAsync(CurrentUser);
 
-            _logger.LogInformation("User changed their phone number successfully.");
+            TempData["SuccessMessage"] = "Numer telefonu zosta³ pomyœlnie zmieniony.";
             return RedirectToPage("/Shared/ChangeDataUser");
         }
     }

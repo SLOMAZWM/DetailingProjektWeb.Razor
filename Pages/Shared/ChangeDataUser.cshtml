@@ -2,7 +2,6 @@
 @model WebProjektRazor.Pages.Shared.ChangeDataUserModel
 @{
     ViewData["Title"] = "Zmiana Danych";
-
 }
 
 <head>
@@ -11,6 +10,13 @@
     <link rel="stylesheet" href="~/css/site.css">
 </head>
 <body>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
     @if (Model.CurrentUser != null)
     {
         <div class="ActualData">
@@ -85,11 +91,11 @@
                 </div>
                 <div class="InputNumber">
                     <input asp-for="ChangePhoneNumberData.NewPhoneNumber" class="CssNumber" placeholder="Nowy Numer Telefonu" />
-                    <span asp-validation-for="ChangePhoneNumberData.NewPhoneNumber"></span>
+                    <span asp-validation-for="ChangePhoneNumberData.NewPhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="InputNumber">
                     <input asp-for="ChangePhoneNumberData.ConfirmPhoneNumber" class="CssNumber" placeholder="Potwierdź Numer Telefonu" />
-                    <span asp-validation-for="ChangePhoneNumberData.ConfirmPhoneNumber"></span>
+                    <span asp-validation-for="ChangePhoneNumberData.ConfirmPhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="CDUButton">
                     <button type="submit">Zatwierdź</button>
