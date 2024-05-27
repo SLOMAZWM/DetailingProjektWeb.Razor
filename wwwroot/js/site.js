@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function scrollFunction() {
-        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 800) {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 1800) {
             backToTopBtn.style.display = "block";
             backToTopBtn.classList.add("show");
         } else {
@@ -26,5 +26,39 @@ document.addEventListener("DOMContentLoaded", function () {
     backToTopBtn.onclick = function () {
         backToTop();
     };
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    var images = [
+        '/Pictures/Audi.png',
+        '/Pictures/Subaru.png',
+        '/Pictures/Nissan.png'
+    ];
+    var currentIndex = 0;
+
+    var carImage1 = document.getElementById('carImage1');
+    var carImage2 = document.getElementById('carImage2');
+    var carImage3 = document.getElementById('carImage3');
+
+    var carImages = [carImage1, carImage2, carImage3];
+
+    carImages.forEach(function (carImage) {
+        carImage.addEventListener('click', function () {
+            fadeImages();
+        });
+    });
+
+    function fadeImages() {
+        var nextIndex = (currentIndex + 1) % images.length;
+        var currentImage = carImages[currentIndex % 2];
+        var nextImage = carImages[(currentIndex + 2) % 1];
+
+        nextImage.src = images[nextIndex];
+        currentImage.classList.add('hidden');
+        nextImage.classList.remove('hidden');
+
+        currentIndex = nextIndex;
+    }
 });
 
