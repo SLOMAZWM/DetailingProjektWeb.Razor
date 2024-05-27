@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebProjektRazor.Models.User
+namespace WebProjektRazor.Models.User.ViewModel
 {
     public class RegisterUser
     {

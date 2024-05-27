@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebProjektRazor.Models.User
+namespace WebProjektRazor.Models.User.ViewModel
 {
-    public class LoginUser
+    public class LoginUserViewModel
     {
         [Required(ErrorMessage = "Email jest wymagany.")]
         [EmailAddress(ErrorMessage = "Nieprawidłowy format email.")]

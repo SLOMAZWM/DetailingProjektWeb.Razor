@@ -5,25 +5,31 @@ using System.Collections.Generic;
 using WebProjektRazor.Database;
 using WebProjektRazor.Models.User;
 using System.Threading.Tasks;
-using BCrypt.Net;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebProjektRazor.Models.User.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace WebProjektRazor.Pages
 {
     public class LoginRegisterModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public LoginRegisterModel(ApplicationDbContext context)
+        public LoginRegisterModel(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [BindProperty]
         public RegisterUser? RegisterUser { get; set; }
 
         [BindProperty]
-        public LoginUser? LoginUser { get; set; }
+        public LoginUserViewModel? LoginUser { get; set; }
 
         public IActionResult OnGet()
         {
@@ -38,35 +44,25 @@ namespace WebProjektRazor.Pages
 
         public async Task<IActionResult> OnPostRegisterAsync()
         {
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(RegisterUser, serviceProvider: null, items: null);
-
-            bool isValid = Validator.TryValidateObject(RegisterUser, validationContext, validationResults, true);
-            if (!isValid)
+            if (!ModelState.IsValid)
             {
-                foreach (var validationResult in validationResults)
-                {
-                    ModelState.AddModelError("", validationResult.ErrorMessage);
-                }
                 return Page();
             }
 
-            try
+            var user = new User
             {
-                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(RegisterUser.Password);
-                var user = new User
-                {
-                    FirstName = RegisterUser.FirstName,
-                    LastName = RegisterUser.LastName,
-                    Email = RegisterUser.Email,
-                    Password = hashedPassword,
-                    PhoneNumber = RegisterUser.PhoneNumber,
-                    Role = UserRole.Client
-                };
+                UserName = RegisterUser.Email,
+                Email = RegisterUser.Email,
+                FirstName = RegisterUser.FirstName,
+                LastName = RegisterUser.LastName,
+                PhoneNumber = RegisterUser.PhoneNumber,
+                Role = UserRole.Client
+            };
 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, RegisterUser.Password);
 
+            if (result.Succeeded)
+            {
                 var client = new Client
                 {
                     UserId = user.Id
@@ -75,49 +71,44 @@ namespace WebProjektRazor.Pages
                 _context.Clients.Add(client);
                 await _context.SaveChangesAsync();
 
-                HttpContext.Session.SetInt32("UserId", user.UserId);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("UserType", "Client");
                 return RedirectToPage("ClientPage/ClientUserPanel");
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Wyst¹pi³ b³¹d podczas rejestracji: " + ex.Message);
-                return Page();
-            }
-        }
 
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostLoginAsync()
         {
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(LoginUser, serviceProvider: null, items: null);
-
-            if (!Validator.TryValidateObject(LoginUser, validationContext, validationResults, true))
+            if (!ModelState.IsValid)
             {
-                foreach (var validationResult in validationResults)
-                {
-                    ModelState.AddModelError("", validationResult.ErrorMessage);
-                }
                 return Page();
             }
 
-            try
+            var user = await _userManager.FindByEmailAsync(LoginUser.Email);
+            if (user != null)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == LoginUser.Email);
-                if (user != null && BCrypt.Net.BCrypt.Verify(LoginUser.Password, user.Password))
+                var result = await _signInManager.PasswordSignInAsync(user, LoginUser.Password, isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
                 {
-                    HttpContext.Session.SetInt32("UserId", user.UserId);
+                    HttpContext.Session.SetString("UserId", user.Id.ToString());
                     HttpContext.Session.SetString("UserType", user.Role == UserRole.Client ? "Client" : "Employee");
 
                     string redirectPage = user.Role == UserRole.Client ? "ClientPage/ClientUserPanel" : "EmployeePage/EmployeeUserPanel";
                     return RedirectToPage(redirectPage);
                 }
-                ModelState.AddModelError("", "Nieprawid³owy email lub has³o.");
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Wyst¹pi³ b³¹d podczas logowania: " + ex.Message);
-            }
+
+            ModelState.AddModelError(string.Empty, "Nieprawid³owy email lub has³o.");
             return Page();
         }
     }
