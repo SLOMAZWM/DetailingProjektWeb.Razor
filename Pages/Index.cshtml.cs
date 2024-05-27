@@ -1,20 +1,20 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using WebProjektRazor.Database;
+using WebProjektRazor.Models;
 
-namespace WebProjektRazor.Pages
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly ApplicationDbContext _context;
+
+    public IndexModel(ApplicationDbContext context)
     {
-        private readonly ILogger<IndexModel> _logger;
+        _context = context;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+    public List<Product> Products { get; set; }
 
-        public void OnGet()
-        {
-
-        }
+    public void OnGet()
+    {
+        Products = _context.Products.ToList();
     }
 }
