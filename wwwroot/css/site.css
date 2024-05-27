@@ -46,9 +46,10 @@ body {
     align-items: center;
     background-image: linear-gradient(to right top, #ffc75f, #ffbd61, #ffb363, #ffaa67, #ffa16b, #ff9a6e, #ff9372, #ff8c76, #ff847b, #ff7d81, #ff7689, #ff6f91);
     margin-top: 0%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
     font-family: 'Century Gothic';
+    box-shadow: 0px 0px 10px 10px rgba(0,0,0,0.25);
 }
 
     .menu a {
@@ -56,15 +57,17 @@ body {
         color: black;
         opacity: 100%;
         font-family: 'Century Gothic';
-        margin-right: 12%;
-        font-size: 140%;
+        margin-right: 11%;
+        font-size: 130%;
         transition: ease-in-out 2s;
+        letter-spacing: 3px;
     }
 
         .menu a:hover {
             color: white;
             transition: 0.5s;
             cursor: pointer;
+
             
         }
 
@@ -796,7 +799,7 @@ body {
 
 .Contact {
     background-image: linear-gradient(to left top, #ffc75f, #ffbd61, #ffb363, #ffaa67, #ffa16b, #ff9a6e, #ff9372, #ff8c76, #ff847b, #ff7d81, #ff7689, #ff6f91);
-    margin-top: 10%;
+    margin-top: 20%;
     color: black;
     text-align: center;
     padding-top: 0.01%;
@@ -867,3 +870,10 @@ body {
     }
 
 /*===================================================================================================================BackToTopButton=======================================================================================================================*/
+
+.AboutUs {
+    margin-top: 5%;
+    float: right;
+    letter-spacing: 3px;
+    margin-right: 5%;
+}
