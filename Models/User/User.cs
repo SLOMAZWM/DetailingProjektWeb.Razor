@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebProjektRazor.Models.User
 {
-    public class User
+    public class User : IdentityUser
     {
         public int UserId { get; set; }
 
@@ -21,7 +22,7 @@ namespace WebProjektRazor.Models.User
         [Required(ErrorMessage = "Hasło jest wymagane.")]
         [StringLength(256, ErrorMessage = "Hasło musi mieć od 8 do 256 znaków", MinimumLength = 8)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d\s:]).*$", ErrorMessage = "Hasło musi zawierać co najmniej jedną dużą literę, jedną małą literę, jedną cyfrę i jeden znak specjalny.")]
-        public string Password { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty; // Add this line
 
         [Required(ErrorMessage = "Numer telefonu jest wymagany.")]
         [RegularExpression(@"^\+\d{1,3}\s\d{1,3}\s\d{3}\s\d{3}\s\d{3}$", ErrorMessage = "Numer telefonu musi być w formacie +00 000 000 000.")]

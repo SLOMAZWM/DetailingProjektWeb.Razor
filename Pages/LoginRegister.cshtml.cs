@@ -69,7 +69,7 @@ namespace WebProjektRazor.Pages
 
                 var client = new Client
                 {
-                    UserId = user.UserId
+                    UserId = user.Id
                 };
 
                 _context.Clients.Add(client);
@@ -85,6 +85,7 @@ namespace WebProjektRazor.Pages
                 return Page();
             }
         }
+
 
         public async Task<IActionResult> OnPostLoginAsync()
         {
