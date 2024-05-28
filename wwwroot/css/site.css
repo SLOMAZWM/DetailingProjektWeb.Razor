@@ -606,8 +606,9 @@ body {
 
     .Gallery img {
         position: absolute;
-        width: 85%;
+        width: 75%;
         height: 550px;
+        max-height: 550px;
         border-radius: 5%;
         border: #FF4660 5px solid;
         transition: opacity 1s;
