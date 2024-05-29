@@ -997,3 +997,28 @@ body {
 
 /*===================================================================================================================BackToTopButton=======================================================================================================================*/
 
+.Tableservices {
+    border-radius: 10px;
+    margin-top: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 5px solid #fe935c;
+    text-align: center;
+    padding: 5%;
+}
+
+.TableInfo {
+    border-radius: 10px;
+    margin-top: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    border: 5px solid black;
+}
+
+.buttonsTable {
+    margin-top: 2%;
+    margin-left: 47%;
+}
+
+
