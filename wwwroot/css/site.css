@@ -70,11 +70,11 @@ body {
             cursor: pointer;
         }
 
-    .Cardshop {
-        width: 5%;
-        height: 10%;
-        margin: 
-    }
+.Cardshop {
+    width: 5%;
+    height: 10%;
+    margin:
+}
 
 /*========================================================================================================================Menu========================================================================================================================*/
 
@@ -924,10 +924,10 @@ body {
     transition: 1s;
 }
 
-.Instagram:hover {
-    opacity: 90%;
-    transition: 1s;
-}
+    .Instagram:hover {
+        opacity: 90%;
+        transition: 1s;
+    }
 
 .Youtube {
     position: fixed;
@@ -940,10 +940,10 @@ body {
     transition: 1s;
 }
 
-.Youtube:hover {
-    opacity: 90%;
-    transition: 1s;
-}
+    .Youtube:hover {
+        opacity: 90%;
+        transition: 1s;
+    }
 
 .WaterMark {
     position: fixed;
@@ -954,7 +954,6 @@ body {
     left: 1%;
     top: 92%;
     transition: 1s;
-
 }
 
     .WaterMark:hover {
@@ -1020,5 +1019,3 @@ body {
     margin-top: 2%;
     margin-left: 47%;
 }
-
-
