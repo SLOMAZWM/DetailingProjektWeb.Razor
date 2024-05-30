@@ -7,29 +7,49 @@
     <div class="TableServices">
         <table border="1" class="TableInfo">
             <tr>
-                <td>Data</td>
-                <td>Klient</td>
-                <td>Samochód</td>
-                <td>Usługa</td>
-                <td>Realizacja</td>
-                <td>Materiały</td>
-                <td>Uwagi dla klienta</td>
+                <td><b>Data</b></td>
+                <td><b>Klient</b></td>
+                <td><b>Samochód</b></td>
+                <td><b>Usługa</b></td>
+                <td><b>Realizacja</b></td>
+                <td><b>Materiały</b></td>
+                <td><b>Uwagi dla klienta</b></td>
             </tr>
 
             <tr>
-                <td>01.05.2024</td>
-                <td>J. Kowalski</td>
-                <td>VW Golf</td>
-                <td>Przyciemnianie Szyb</td>
-                <td>W trakcie</td>
-                <td>Folia do szyb</td>
-                <td>Brak</td>
+                <td><input type="Date" /></td>
+                <td><input type="Text" /></td>
+                <td><input type="Text" /></td>
+                    <td>
+                        <select class="Wybierzzlisty" id="Wybierzzlisty" name="usluga">
+                            <optgroup label="Wybierz">
+                                <option value="Mycie Detailingowe"></option>
+                                <option value="Regeneracja Lakieru">Regeneracja Lakieru</option>
+                                <option value="Powłoka Ceramiczna">Powłoka Ceramiczna</option>
+                                <option value="Detailing Wnętrza">Detailing Wnętrza</option>
+                                <option value="Regeneracja Reflektorów">Regeneracja Reflektorów</option>
+                                <option value="Naklejanie Folii">Naklejanie Folii</option>
+                                <option value="Przyciemnianie Szyb">Przyciemnianie Szyb</option>
+                            </optgroup>
+                        </select>
+                    </td>
+
+                <td>
+                    <select class="Realizacja" id="RealizacjaID" name="Realizacja">
+                        <optgroup label="Wybierz">
+                            <option value="Oczekuje">Oczekuje</option>
+                            <option value="W trakcie">W trakcie</option>
+                            <option value="Zrealizowane">Zrelizowane</option>
+                        </optgroup>
+                    </select>
+                </td>
+                <td><input type="Text" /></td>
+                <td><input type="Text" /></td>
             </tr>
         </table>
+
         <div class="buttonsTable">
             <button class="BttnTableAdd">Dodaj</button>
-            <button class="BttnTableEdit">Edytuj</button>
-            <button class="BttnTableDelete">Usuń</button>
         </div>
     </div>
 </body>

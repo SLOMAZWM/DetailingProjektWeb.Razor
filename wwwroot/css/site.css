@@ -1001,10 +1001,12 @@ body {
     margin-top: 10%;
     margin-right: auto;
     margin-left: auto;
-    border: 5px solid #fe935c;
+    background-color: #04AA6D;
+    border: 5px solid #ff9372;
     text-align: center;
     padding: 5%;
 }
+
 
 .TableInfo {
     border-radius: 10px;
@@ -1012,10 +1014,41 @@ body {
     margin-right: auto;
     margin-left: auto;
     text-align: center;
-    border: 5px solid black;
+    border: 5px solid #ff9372;
 }
 
 .buttonsTable {
     margin-top: 2%;
     margin-left: 47%;
+}
+/*=======================================================================TablesEmploeeHistory====================================================================*/
+
+.Tables {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    letter-spacing: 1px;
+    margin: 5%;
+    
+
+}
+
+
+.TablesLeft {
+    width: 40%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid #ff9372;
+    border-radius: 5px;
+    border-style: solid;
+}
+
+.TablesRight {
+    width: 40%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid #ff9372;
+    border-radius: 5px;
 }
