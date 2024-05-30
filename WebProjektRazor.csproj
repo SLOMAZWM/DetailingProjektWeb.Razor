@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\EmployeePage\HistoryNav.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
@@ -34,18 +30,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Pictures\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\EmployeePage\HistoryNav.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\EmployeePage\HistoryNav.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\EmployeePage\HistoryNav.cshtml" />
   </ItemGroup>
 
 </Project>
