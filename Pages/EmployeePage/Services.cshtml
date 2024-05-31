@@ -1,55 +1,107 @@
 ﻿@page "/Services"
 @model WebProjektRazor.Pages.EmployeePage.ServicesModel
 @{
+    ViewData["Title"] = "Zarządzanie Usługami";
 }
 
 <body>
     <div class="TableServices">
+        <h2>Obecne Zamówienia Usług</h2>
         <table border="1" class="TableInfo">
-            <tr>
-                <td><b>Data</b></td>
-                <td><b>Klient</b></td>
-                <td><b>Samochód</b></td>
-                <td><b>Usługa</b></td>
-                <td><b>Realizacja</b></td>
-                <td><b>Materiały</b></td>
-                <td><b>Uwagi dla klienta</b></td>
-            </tr>
+            <thead>
+                <tr>
+                    <td><b>Data</b></td>
+                    <td><b>Klient</b></td>
+                    <td><b>Samochód</b></td>
+                    <td><b>Usługa</b></td>
+                    <td><b>Realizacja</b></td>
+                    <td><b>Materiały</b></td>
+                    <td><b>Uwagi dla klienta</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderService in Model.OrderServices)
+                {
+                    <tr>
+                        <td>@orderService.ExecutionDate.ToString("yyyy-MM-dd")</td>
+                        <td>@orderService.Client.User.FirstName @orderService.Client.User.LastName</td>
+                        <td>@orderService.Car.Model</td>
+                        <td>
+                            <ul>
+                                @foreach (var service in orderService.Services)
+                                {
+                                    <li>@service.Name</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <form method="post" asp-page-handler="UpdateStatus">
+                                <input type="hidden" name="id" value="@orderService.OrderId" />
+                                <select class="Realizacja" id="RealizacjaID" name="status" onchange="this.form.submit()">
+                                    <option value="Oczekuje" selected="@(orderService.Status == "Oczekuje")">Oczekuje</option>
+                                    <option value="W trakcie" selected="@(orderService.Status == "W trakcie")">W trakcie</option>
+                                    <option value="Zrealizowane" selected="@(orderService.Status == "Zrealizowane")">Zrealizowane</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>@orderService.Materials</td>
+                        <td>@orderService.ClientRemarks</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-            <tr>
-                <td><input type="Date" /></td>
-                <td><input type="Text" /></td>
-                <td><input type="Text" /></td>
+    <div class="TableServices">
+        <h2>Dodaj Usługę</h2>
+        <form method="post" asp-page-handler="AddOrderService">
+            <table border="1" class="TableInfo">
+                <tr>
+                    <td><b>Data</b></td>
+                    <td><b>Imię</b></td>
+                    <td><b>Nazwisko</b></td>
+                    <td><b>Email</b></td>
+                    <td><b>Marka</b></td>
+                    <td><b>Model</b></td>
+                    <td><b>Rok</b></td>
+                    <td><b>Kolor</b></td>
+                    <td><b>VIN</b></td>
+                    <td><b>Przebieg</b></td>
+                    <td><b>Usługa</b></td>
+                    <td><b>Materiały</b></td>
+                    <td><b>Uwagi dla klienta</b></td>
+                </tr>
+                <tr>
+                    <td><input asp-for="NewOrderService.ExecutionDate" type="date" /></td>
+                    <td><input asp-for="NewOrderService.Client.User.FirstName" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Client.User.LastName" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Client.User.Email" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Car.Brand" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Car.Model" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Car.Year" type="number" /></td>
+                    <td><input asp-for="NewOrderService.Car.Color" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Car.VIN" type="text" /></td>
+                    <td><input asp-for="NewOrderService.Car.Mileage" type="number" /></td>
                     <td>
-                        <select class="Wybierzzlisty" id="Wybierzzlisty" name="usluga">
-                            <optgroup label="Wybierz">
-                                <option value="Mycie Detailingowe"></option>
-                                <option value="Regeneracja Lakieru">Regeneracja Lakieru</option>
-                                <option value="Powłoka Ceramiczna">Powłoka Ceramiczna</option>
-                                <option value="Detailing Wnętrza">Detailing Wnętrza</option>
-                                <option value="Regeneracja Reflektorów">Regeneracja Reflektorów</option>
-                                <option value="Naklejanie Folii">Naklejanie Folii</option>
-                                <option value="Przyciemnianie Szyb">Przyciemnianie Szyb</option>
-                            </optgroup>
+                        <select asp-for="NewOrderService.Services" class="Wybierzzlisty" id="Wybierzzlisty">
+                            <option value="">Wybierz</option>
+                            <option value="Mycie Detailingowe">Mycie Detailingowe</option>
+                            <option value="Regeneracja Lakieru">Regeneracja Lakieru</option>
+                            <option value="Powłoka Ceramiczna">Powłoka Ceramiczna</option>
+                            <option value="Detailing Wnętrza">Detailing Wnętrza</option>
+                            <option value="Regeneracja Reflektorów">Regeneracja Reflektorów</option>
+                            <option value="Naklejanie Folii">Naklejanie Folii</option>
+                            <option value="Przyciemnianie Szyb">Przyciemnianie Szyb</option>
                         </select>
                     </td>
+                    <td><input asp-for="NewOrderService.Materials" type="text" /></td>
+                    <td><input asp-for="NewOrderService.ClientRemarks" type="text" /></td>
+                </tr>
+            </table>
 
-                <td>
-                    <select class="Realizacja" id="RealizacjaID" name="Realizacja">
-                        <optgroup label="Wybierz">
-                            <option value="Oczekuje">Oczekuje</option>
-                            <option value="W trakcie">W trakcie</option>
-                            <option value="Zrealizowane">Zrelizowane</option>
-                        </optgroup>
-                    </select>
-                </td>
-                <td><input type="Text" /></td>
-                <td><input type="Text" /></td>
-            </tr>
-        </table>
-
-        <div class="buttonsTable">
-            <button class="BttnTableAdd">Dodaj</button>
-        </div>
+            <div class="buttonsTable">
+                <button class="BttnTableAdd">Dodaj</button>
+            </div>
+        </form>
     </div>
 </body>
