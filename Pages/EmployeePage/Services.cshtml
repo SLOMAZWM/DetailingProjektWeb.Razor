@@ -52,56 +52,8 @@
         </table>
     </div>
 
-    <div class="TableServices">
-        <h2>Dodaj Usługę</h2>
-        <form method="post" asp-page-handler="AddOrderService">
-            <table border="1" class="TableInfo">
-                <tr>
-                    <td><b>Data</b></td>
-                    <td><b>Imię</b></td>
-                    <td><b>Nazwisko</b></td>
-                    <td><b>Email</b></td>
-                    <td><b>Marka</b></td>
-                    <td><b>Model</b></td>
-                    <td><b>Rok</b></td>
-                    <td><b>Kolor</b></td>
-                    <td><b>VIN</b></td>
-                    <td><b>Przebieg</b></td>
-                    <td><b>Usługa</b></td>
-                    <td><b>Materiały</b></td>
-                    <td><b>Uwagi dla klienta</b></td>
-                </tr>
-                <tr>
-                    <td><input asp-for="NewOrderService.ExecutionDate" type="date" /></td>
-                    <td><input asp-for="NewOrderService.Client.User.FirstName" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Client.User.LastName" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Client.User.Email" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Car.Brand" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Car.Model" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Car.Year" type="number" /></td>
-                    <td><input asp-for="NewOrderService.Car.Color" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Car.VIN" type="text" /></td>
-                    <td><input asp-for="NewOrderService.Car.Mileage" type="number" /></td>
-                    <td>
-                        <select asp-for="NewOrderService.Services" class="Wybierzzlisty" id="Wybierzzlisty">
-                            <option value="">Wybierz</option>
-                            <option value="Mycie Detailingowe">Mycie Detailingowe</option>
-                            <option value="Regeneracja Lakieru">Regeneracja Lakieru</option>
-                            <option value="Powłoka Ceramiczna">Powłoka Ceramiczna</option>
-                            <option value="Detailing Wnętrza">Detailing Wnętrza</option>
-                            <option value="Regeneracja Reflektorów">Regeneracja Reflektorów</option>
-                            <option value="Naklejanie Folii">Naklejanie Folii</option>
-                            <option value="Przyciemnianie Szyb">Przyciemnianie Szyb</option>
-                        </select>
-                    </td>
-                    <td><input asp-for="NewOrderService.Materials" type="text" /></td>
-                    <td><input asp-for="NewOrderService.ClientRemarks" type="text" /></td>
-                </tr>
-            </table>
-
-            <div class="buttonsTable">
-                <button class="BttnTableAdd">Dodaj</button>
-            </div>
-        </form>
+    <div class="buttonsTable">
+        <a href="/EmployeePage/AddService" class="BttnTableAdd">Dodaj Usługę</a>
     </div>
+
 </body>

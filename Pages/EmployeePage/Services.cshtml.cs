@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,9 +22,6 @@ namespace WebProjektRazor.Pages.EmployeePage
         [BindProperty]
         public IList<OrderService> OrderServices { get; set; }
 
-        [BindProperty]
-        public OrderService NewOrderService { get; set; } = new OrderService();
-
         public SelectList StatusList { get; set; }
 
         public async Task OnGetAsync()
@@ -37,20 +34,6 @@ namespace WebProjektRazor.Pages.EmployeePage
                 .ToListAsync();
 
             StatusList = new SelectList(new List<string> { "Oczekuje", "W trakcie", "Zrealizowane" });
-        }
-
-        public async Task<IActionResult> OnPostAddOrderServiceAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                await OnGetAsync();
-                return Page();
-            }
-
-            _context.OrderServices.Add(NewOrderService);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostUpdateStatusAsync(int id, string status)
