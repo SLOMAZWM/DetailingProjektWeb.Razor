@@ -8,6 +8,8 @@ namespace WebProjektRazor.Models
         public int ClientId { get; set; }
         public int EmployeeId { get; set; }
         public int? CarId { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string Discriminator { get; set; }
 
         public virtual Client Client { get; set; }
         public virtual Employee Employee { get; set; }

@@ -6,7 +6,8 @@
 
 <body>
     <div class="Tables">
-        <table border=1 class="TablesLeft">
+        <!-- Tabelka usług -->
+        <table border="1" class="TablesLeft">
             <tr>
                 <td><b>Klient</b></td>
                 <td><b>Data Zlecenia</b></td>
@@ -14,32 +15,43 @@
                 <td><b>Cena</b></td>
                 <td><b>Szczegóły</b></td>
             </tr>
+            <!-- Puste, ponieważ zakładamy, że tutaj będą wyświetlane usługi -->
             <tr>
-                <td>Z bazy</td>
-                <td>Data z bazy</td>
-                <td>samochód z bazy</td>
-                <td>cena z bazy</td>
-                <td>z bazy</td>
+                <td colspan="5">Brak danych usług</td>
             </tr>
         </table>
 
-
-        <table border=1 class="TablesRight">
+        <!-- Tabelka zamówień produktów -->
+        <table border="1" class="TablesRight">
             <tr>
                 <td><b>Nr. Zamówienia</b></td>
                 <td><b>Data zamówienia</b></td>
-                <td><b>Klient</b></td>
-                <td><b>Szczegóły</b></td>
+                <td><b>Email</b></td>
+                <td><b>Imię i Nazwisko</b></td>
                 <td><b>Cena</b></td>
+                <td><b>Szczegóły</b></td>
             </tr>
-            <tr>
-                <td>Numer id z bazy</td>
-                <td>Data z bazy"</td>
-                <td>klient z bazy</td>
-                <td><a href="/OrderProductsDetils">Szczegóły zamówienia</a></td>
-                <td>Cena z bazy</td>
-            </tr>
-        </table> 
+            @if (Model.OrderProducts != null && Model.OrderProducts.Count > 0)
+            {
+                @foreach (var order in Model.OrderProducts)
+                {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                        <td>@order.Client?.User?.Email</td>
+                        <td>@order.Client?.User?.FirstName @order.Client?.User?.LastName</td>
+                        <td><a href="/OrderProductsDetails/@order.OrderId">Szczegóły zamówienia</a></td>
+                        <td>@Model.OrderTotals[order.OrderId].ToString("C")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">Brak zamówień do wyświetlenia</td>
+                </tr>
+            }
+        </table>
     </div>
 
     <div class="buttonsTable">
@@ -47,4 +59,3 @@
         <button class="BttnTableDelete">Usuń</button>
     </div>
 </body>
-
