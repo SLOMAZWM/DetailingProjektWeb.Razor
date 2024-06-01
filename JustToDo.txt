@@ -29,8 +29,5 @@ b) jako klient dla siebie
 1. Utworzenie strony z oferta (produkty i uslugi)
 2. Strona z koszykiem (cala z wpisywaniem danych klienta, adresu itd - jak klient kupuje, tak jak na kazdej innej stronie, wybor dostawy przedmiotow)
 3. Strona z kontaktem, ktora bedzie umozliwiac umowienie sie na wykonanie uslugi, lub doradztwo
-4. Strony dla pracownikow - strona z zarzadzania uslugami, mozliwoscia podgladow szczegolow zamowienia, oraz strona z zamowieniami mozliwoscia podgladow szczegolow zamowien, w przypadku uslug mozliwosc dopisania notatki dla klienta (jak wyzej w funkcjonalnosciach)
-5. Strona (Historia klientow) - dla pracownika mozliwosc sprawdzenia historii danego klienta po wpisaniu jego nr telefonu i imienia lub nazwiska
 6. Strona dla klientow - mozliwosc podgladania swojej historii zamowien i uslug
 7. Dokonczenie glownej strony
-8. Jesli jakies funkcjonalnosci nie ma to uzupelnic

@@ -1052,3 +1052,32 @@ body {
     border: 3px solid #ff9372;
     border-radius: 5px;
 }
+
+/*=======================================================================TablesEmploeeHistory====================================================================*/
+
+/*=======================================================================PPF Main Website====================================================================*/
+
+.PPF {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.ppf1 {
+    margin-left: 7%;
+    margin-right: 7%;
+}
+
+
+.LinePPF {
+    background-color: white;
+    padding-left: 0.1%;
+    padding-right: 0.1%;
+    padding-top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    transition: 1s;
+}
