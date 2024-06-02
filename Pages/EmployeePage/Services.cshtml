@@ -1,35 +1,59 @@
 ﻿@page "/Services"
 @model WebProjektRazor.Pages.EmployeePage.ServicesModel
 @{
+    ViewData["Title"] = "Zarządzanie Usługami";
 }
 
 <body>
     <div class="TableServices">
+        <h2>Obecne Zamówienia Usług</h2>
         <table border="1" class="TableInfo">
-            <tr>
-                <td>Data</td>
-                <td>Klient</td>
-                <td>Samochód</td>
-                <td>Usługa</td>
-                <td>Realizacja</td>
-                <td>Materiały</td>
-                <td>Uwagi dla klienta</td>
-            </tr>
-
-            <tr>
-                <td>01.05.2024</td>
-                <td>J. Kowalski</td>
-                <td>VW Golf</td>
-                <td>Przyciemnianie Szyb</td>
-                <td>W trakcie</td>
-                <td>Folia do szyb</td>
-                <td>Brak</td>
-            </tr>
+            <thead>
+                <tr>
+                    <td><b>Data</b></td>
+                    <td><b>Klient</b></td>
+                    <td><b>Samochód</b></td>
+                    <td><b>Usługa</b></td>
+                    <td><b>Realizacja</b></td>
+                    <td><b>Materiały</b></td>
+                    <td><b>Uwagi dla klienta</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orderService in Model.OrderServices)
+                {
+                    <tr>
+                        <td>@orderService.ExecutionDate.ToString("yyyy-MM-dd")</td>
+                        <td>@orderService.Client.User.FirstName @orderService.Client.User.LastName</td>
+                        <td>@orderService.Car.Model</td>
+                        <td>
+                            <ul>
+                                @foreach (var service in orderService.Services)
+                                {
+                                    <li>@service.Name</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <form method="post" asp-page-handler="UpdateStatus">
+                                <input type="hidden" name="id" value="@orderService.OrderId" />
+                                <select class="Realizacja" id="RealizacjaID" name="status" onchange="this.form.submit()">
+                                    <option value="Oczekuje" selected="@(orderService.Status == "Oczekuje")">Oczekuje</option>
+                                    <option value="W trakcie" selected="@(orderService.Status == "W trakcie")">W trakcie</option>
+                                    <option value="Zrealizowane" selected="@(orderService.Status == "Zrealizowane")">Zrealizowane</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>@orderService.Materials</td>
+                        <td>@orderService.ClientRemarks</td>
+                    </tr>
+                }
+            </tbody>
         </table>
-        <div class="buttonsTable">
-            <button class="BttnTableAdd">Dodaj</button>
-            <button class="BttnTableEdit">Edytuj</button>
-            <button class="BttnTableDelete">Usuń</button>
-        </div>
     </div>
+
+    <div class="buttonsTable">
+        <a href="/EmployeePage/AddService" class="BttnTableAdd">Dodaj Usługę</a>
+    </div>
+
 </body>

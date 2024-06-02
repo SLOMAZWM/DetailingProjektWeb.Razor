@@ -78,6 +78,12 @@ namespace WebProjektRazor.Database
                 .WithMany()
                 .HasForeignKey(o => o.CarId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Order>()
+                .HasDiscriminator<string>("Discriminator")
+                .HasValue<Order>("Order")
+                .HasValue<OrderProducts>("OrderProducts")
+                .HasValue<OrderService>("OrderService");
         }
     }
 }
